@@ -12,7 +12,7 @@ export interface Project {
   featured: boolean;
   /** Omit for private repositories. */
   repo?: string;
-  /** Only set when a live demo really exists. */
+  /** Only set when a live demo really exists. Absolute https URL or a site-relative path. */
   demo?: string;
 }
 
@@ -69,6 +69,7 @@ export const projects: Project[] = [
     status: 'Proof of concept',
     featured: true,
     repo: gh('mobile-robot-path-planning'),
+    demo: 'demo/path-planning/',
   },
   {
     slug: 'voice-controlled-mobile-manipulator',

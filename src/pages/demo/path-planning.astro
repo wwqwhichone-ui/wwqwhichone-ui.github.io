@@ -1,0 +1,371 @@
+---
+import Base from '../../layouts/Base.astro';
+import { GITHUB_URL } from '../../data/profile';
+import { withBase } from '../../lib/url';
+---
+
+<Base
+  title="Path planning demo"
+  description="Interactive A*, Dijkstra and RRT path planning in the browser: draw obstacles and compare planners."
+>
+  <section class="page-head">
+    <div class="container section-head">
+      <p class="eyebrow">Interactive demo</p>
+      <h1>Path planning in the browser</h1>
+      <p class="lead">
+        Draw walls, move the start and goal, and compare A*, Dijkstra and RRT. This is a TypeScript port of the planners
+        in <a href={`${GITHUB_URL}/mobile-robot-path-planning`}>mobile-robot-path-planning</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section demo-section">
+    <div class="container">
+      <div class="toolbar" role="toolbar" aria-label="Planner controls">
+        <fieldset class="seg">
+          <legend class="sr-only">Algorithm</legend>
+          <label><input type="radio" name="algo" value="astar" checked /> A*</label>
+          <label><input type="radio" name="algo" value="dijkstra" /> Dijkstra</label>
+          <label><input type="radio" name="algo" value="rrt" /> RRT</label>
+        </fieldset>
+        <fieldset class="seg">
+          <legend class="sr-only">Drawing tool</legend>
+          <label><input type="radio" name="tool" value="wall" checked /> Wall</label>
+          <label><input type="radio" name="tool" value="erase" /> Erase</label>
+          <label><input type="radio" name="tool" value="start" /> Start</label>
+          <label><input type="radio" name="tool" value="goal" /> Goal</label>
+        </fieldset>
+        <div class="actions">
+          <button class="btn btn-primary" id="run" type="button">Run</button>
+          <button class="btn" id="reset" type="button">Reset map</button>
+          <button class="btn" id="clear" type="button">Clear walls</button>
+        </div>
+      </div>
+
+      <div class="stage">
+        <canvas
+          id="canvas"
+          role="img"
+          aria-label="Occupancy grid. Click or drag to edit; use the controls above to run a planner."></canvas>
+      </div>
+      <p id="stats" class="stats mono" aria-live="polite">Pick an algorithm and press Run.</p>
+
+      <div class="grid grid-3 notes">
+        <div class="card">
+          <h3>A*</h3>
+          <p class="muted">Best-first search guided by the octile distance to the goal. Optimal on the grid.</p>
+        </div>
+        <div class="card">
+          <h3>Dijkstra</h3>
+          <p class="muted">Same cost as A* but with no heuristic, so it expands cells in every direction.</p>
+        </div>
+        <div class="card">
+          <h3>RRT</h3>
+          <p class="muted">Grows a random tree in continuous space and stops at the first path. Fast, not optimal.</p>
+        </div>
+      </div>
+      <p class="back"><a class="link" href={withBase('projects/')}>← Back to projects</a></p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { astar, makeGrid, rrt, warehousePreset, type Cell, type Grid } from '../../lib/planner';
+
+  const COLS = 40;
+  const ROWS = 24;
+  const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d')!;
+  const stats = document.getElementById('stats')!;
+
+  let { grid, start, goal } = warehousePreset(COLS, ROWS);
+  let overlay: { expanded: Cell[]; shown: number; path: Array<[number, number]> | null; edges: Array<[[number, number], [number, number]]> } = {
+    expanded: [],
+    shown: 0,
+    path: null,
+    edges: [],
+  };
+  let raf = 0;
+  let cell = 16;
+
+  const css = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const selected = (name: string) => (document.querySelector(`input[name="${name}"]:checked`) as HTMLInputElement).value;
+
+  function resize(): void {
+    const w = canvas.parentElement!.clientWidth;
+    cell = Math.max(6, Math.floor(w / COLS));
+    const dpr = window.devicePixelRatio || 1;
+    canvas.style.width = `${cell * COLS}px`;
+    canvas.style.height = `${cell * ROWS}px`;
+    canvas.width = cell * COLS * dpr;
+    canvas.height = cell * ROWS * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    draw();
+  }
+
+  function draw(): void {
+    const bg = css('--bg-elev');
+    const wall = css('--text-2');
+    const line = css('--border');
+    const accent = css('--accent');
+    const visited = css('--accent-soft');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, COLS * cell, ROWS * cell);
+
+    ctx.fillStyle = visited;
+    for (let i = 0; i < overlay.shown; i++) {
+      const c = overlay.expanded[i]!;
+      ctx.fillRect(c.x * cell, c.y * cell, cell, cell);
+    }
+    ctx.strokeStyle = line;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let x = 0; x <= COLS; x++) {
+      ctx.moveTo(x * cell + 0.5, 0);
+      ctx.lineTo(x * cell + 0.5, ROWS * cell);
+    }
+    for (let y = 0; y <= ROWS; y++) {
+      ctx.moveTo(0, y * cell + 0.5);
+      ctx.lineTo(COLS * cell, y * cell + 0.5);
+    }
+    ctx.stroke();
+
+    // Walls after grid lines so obstacles read as solid blocks.
+    ctx.fillStyle = wall;
+    for (let y = 0; y < ROWS; y++)
+      for (let x = 0; x < COLS; x++) if (grid.occupied[y * COLS + x]) ctx.fillRect(x * cell, y * cell, cell, cell);
+
+    if (overlay.edges.length) {
+      ctx.strokeStyle = css('--text-3');
+      ctx.globalAlpha = 0.5;
+      ctx.beginPath();
+      for (const [a, b] of overlay.edges.slice(0, overlay.shown)) {
+        ctx.moveTo(a[0] * cell, a[1] * cell);
+        ctx.lineTo(b[0] * cell, b[1] * cell);
+      }
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+
+    const done = overlay.shown >= Math.max(overlay.expanded.length, overlay.edges.length);
+    if (overlay.path && done) {
+      ctx.strokeStyle = accent;
+      ctx.lineWidth = Math.max(2, cell / 4);
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      overlay.path.forEach(([x, y], i) => (i ? ctx.lineTo(x * cell, y * cell) : ctx.moveTo(x * cell, y * cell)));
+      ctx.stroke();
+    }
+
+    marker(start, css('--ok'));
+    marker(goal, css('--warn'));
+  }
+
+  function marker(c: Cell, color: string): void {
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc((c.x + 0.5) * cell, (c.y + 0.5) * cell, cell * 0.38, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function clearOverlay(): void {
+    cancelAnimationFrame(raf);
+    overlay = { expanded: [], shown: 0, path: null, edges: [] };
+  }
+
+  function run(): void {
+    clearOverlay();
+    const algo = selected('algo');
+    const t0 = performance.now();
+    let summary: string;
+    if (algo === 'rrt') {
+      const r = rrt(grid, start, goal, { seed: Math.floor(Math.random() * 1e9) });
+      const ms = performance.now() - t0;
+      overlay.edges = r.edges;
+      overlay.path = r.path;
+      summary = r.path
+        ? `RRT: path ${r.length.toFixed(1)} cells, ${r.nodes} tree nodes, ${ms.toFixed(1)} ms (random seed — run again for a different tree)`
+        : `RRT: no path within ${r.nodes} nodes`;
+    } else {
+      const r = astar(grid, start, goal, algo === 'astar' ? 1 : 0);
+      const ms = performance.now() - t0;
+      overlay.expanded = r.expandedOrder;
+      overlay.path = r.path ? r.path.map((c) => [c.x + 0.5, c.y + 0.5] as [number, number]) : null;
+      const name = algo === 'astar' ? 'A*' : 'Dijkstra';
+      summary = r.path
+        ? `${name}: path ${r.length.toFixed(1)} cells, ${r.expandedOrder.length} cells expanded, ${ms.toFixed(2)} ms`
+        : `${name}: no path (${r.expandedOrder.length} cells expanded)`;
+    }
+    stats.textContent = summary;
+    animate();
+  }
+
+  function animate(): void {
+    const total = Math.max(overlay.expanded.length, overlay.edges.length);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const stepSize = reduce ? total : Math.max(4, Math.ceil(total / 90));
+    const tick = () => {
+      overlay.shown = Math.min(total, overlay.shown + stepSize);
+      draw();
+      if (overlay.shown < total) raf = requestAnimationFrame(tick);
+    };
+    tick();
+  }
+
+  // ------------------------------------------------------------- editing
+  let painting = false;
+  let last: Cell | null = null;
+  function cellAt(e: PointerEvent): Cell {
+    const r = canvas.getBoundingClientRect();
+    const x = Math.floor((e.clientX - r.left) / cell);
+    const y = Math.floor((e.clientY - r.top) / cell);
+    return { x: Math.min(COLS - 1, Math.max(0, x)), y: Math.min(ROWS - 1, Math.max(0, y)) };
+  }
+  function apply(c: Cell): void {
+    const tool = selected('tool');
+    const i = c.y * COLS + c.x;
+    const isEndpoint = (c.x === start.x && c.y === start.y) || (c.x === goal.x && c.y === goal.y);
+    if (tool === 'wall' && !isEndpoint) grid.occupied[i] = true;
+    else if (tool === 'erase') grid.occupied[i] = false;
+    else if (tool === 'start' && !grid.occupied[i]) start = c;
+    else if (tool === 'goal' && !grid.occupied[i]) goal = c;
+  }
+  /** Paint every cell on the line from the previous pointer cell, so fast drags leave no gaps. */
+  function edit(e: PointerEvent): void {
+    const c = cellAt(e);
+    const from = last ?? c;
+    const steps = Math.max(Math.abs(c.x - from.x), Math.abs(c.y - from.y), 1);
+    for (let k = 0; k <= steps; k++) {
+      apply({
+        x: Math.round(from.x + ((c.x - from.x) * k) / steps),
+        y: Math.round(from.y + ((c.y - from.y) * k) / steps),
+      });
+    }
+    last = c;
+    clearOverlay();
+    draw();
+  }
+  canvas.addEventListener('pointerdown', (e) => {
+    painting = true;
+    last = null;
+    try {
+      canvas.setPointerCapture(e.pointerId);
+    } catch {
+      /* capture is optional */
+    }
+    edit(e);
+  });
+  canvas.addEventListener('pointermove', (e) => painting && edit(e));
+  const stop = () => {
+    painting = false;
+    last = null;
+  };
+  canvas.addEventListener('pointerup', stop);
+  canvas.addEventListener('pointercancel', stop);
+
+  document.getElementById('run')!.addEventListener('click', run);
+  document.getElementById('reset')!.addEventListener('click', () => {
+    ({ grid, start, goal } = warehousePreset(COLS, ROWS));
+    clearOverlay();
+    stats.textContent = 'Map reset.';
+    draw();
+  });
+  document.getElementById('clear')!.addEventListener('click', () => {
+    grid = makeGrid(COLS, ROWS) as Grid;
+    clearOverlay();
+    stats.textContent = 'Walls cleared.';
+    draw();
+  });
+
+  new ResizeObserver(resize).observe(canvas.parentElement!);
+  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+  resize();
+</script>
+
+<style>
+  .page-head {
+    padding-block: clamp(56px, 10vw, 104px) 8px;
+  }
+  .page-head h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+  .demo-section {
+    padding-top: 32px;
+  }
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .seg {
+    display: inline-flex;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    padding: 3px;
+    margin: 0;
+    gap: 2px;
+  }
+  .seg label {
+    position: relative;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    color: var(--text-2);
+    cursor: pointer;
+    user-select: none;
+  }
+  .seg input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+  .seg label:has(input:checked) {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .seg label:has(input:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .stage {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--bg-elev);
+  }
+  canvas {
+    display: block;
+    margin: 0 auto;
+    touch-action: none;
+    cursor: crosshair;
+  }
+  .stats {
+    margin-top: 12px;
+    color: var(--text-2);
+    font-size: 0.85rem;
+    min-height: 1.5em;
+  }
+  .notes {
+    margin-top: 32px;
+  }
+  .notes .card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .back {
+    margin-top: 24px;
+  }
+</style>

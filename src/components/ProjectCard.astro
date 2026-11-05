@@ -1,12 +1,15 @@
 ---
 import type { Project } from '../data/projects';
 import StatusBadge from './StatusBadge.astro';
+import { withBase } from '../lib/url';
 
 interface Props {
   project: Project;
   detailed?: boolean;
 }
 const { project, detailed = false } = Astro.props;
+const external = project.demo?.startsWith('https://') ?? false;
+const demoHref = project.demo && (external ? project.demo : withBase(project.demo));
 ---
 
 <article class="card project" id={project.slug}>
@@ -44,8 +47,8 @@ const { project, detailed = false } = Astro.props;
       )
     }
     {
-      project.demo && (
-        <a class="btn" href={project.demo} target="_blank" rel="noopener">
+      demoHref && (
+        <a class="btn btn-primary" href={demoHref} {...(external ? { target: '_blank', rel: 'noopener' } : {})}>
           Live demo<span class="sr-only"> of {project.title}</span>
         </a>
       )

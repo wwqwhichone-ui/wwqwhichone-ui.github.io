@@ -12,7 +12,7 @@ describe('projects data', () => {
   it('only links demos and repos with https URLs', () => {
     for (const p of projects) {
       if (p.repo) expect(p.repo).toMatch(/^https:\/\/github\.com\//);
-      if (p.demo) expect(p.demo).toMatch(/^https:\/\//);
+      if (p.demo) expect(p.demo).toMatch(/^(https:\/\/|demo\/)/);
     }
   });
 
@@ -24,6 +24,16 @@ describe('projects data', () => {
 
   it('features at least one project', () => {
     expect(projects.some((p) => p.featured)).toBe(true);
+  });
+});
+
+describe('demo links', () => {
+  it('internal demos point at a page that exists', async () => {
+    const { existsSync } = await import('node:fs');
+    for (const p of projects.filter((x) => x.demo && !x.demo.startsWith('https://'))) {
+      const page = `src/pages/${p.demo!.replace(/\/$/, '')}.astro`;
+      expect(existsSync(page), page).toBe(true);
+    }
   });
 });
 
