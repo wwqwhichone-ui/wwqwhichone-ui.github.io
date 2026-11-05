@@ -29,7 +29,7 @@ export const projects: Project[] = [
       'Action whitelist with typed, range-limited parameters',
       'Three-layer validation: schema → grounding → dry-run',
       'Offline rule-based planner + optional Claude backend',
-      '24 unit tests, CI on Python 3.9 and 3.12',
+      '24 unit tests, CI on Python 3.10 and 3.12',
     ],
     stack: ['Python', 'JSON Schema', 'pytest', 'Claude API'],
     status: 'Proof of concept',
