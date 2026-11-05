@@ -1,0 +1,169 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Pipeline from '../components/Pipeline.astro';
+import { GITHUB_URL, profile } from '../data/profile';
+import { featuredProjects } from '../data/projects';
+import { withBase } from '../lib/url';
+---
+
+<Base>
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">{profile.headline}</p>
+      <h1>{profile.name}</h1>
+      <p class="lead">{profile.tagline}</p>
+      <div class="cta">
+        <a class="btn btn-primary" href={withBase('projects/')}>View projects</a>
+        <a class="btn" href={withBase('research/')}>Research</a>
+        <a class="btn" href={GITHUB_URL} target="_blank" rel="noopener me">GitHub</a>
+      </div>
+      <dl class="facts">
+        {
+          profile.education.map((e) => (
+            <div>
+              <dt class="mono">{e.degree}</dt>
+              <dd>
+                {e.field}
+                <span>{e.school}</span>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="focus-h">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Focus</p>
+        <h2 id="focus-h">Core technical directions</h2>
+      </div>
+      <div class="grid grid-3">
+        {
+          profile.focus.map((f, i) => (
+            <div class="card focus">
+              <span class="mono idx">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{f.title}</h3>
+              <p class="muted">{f.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="work-h">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Selected work</p>
+        <h2 id="work-h">Featured projects</h2>
+      </div>
+      <div class="grid grid-2">
+        {featuredProjects.map((p) => <ProjectCard project={p} />)}
+      </div>
+      <p class="more"><a class="link" href={withBase('projects/')}>All projects →</a></p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="diss-h">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Dissertation · In progress</p>
+        <h2 id="diss-h">From voice to verified robot action</h2>
+        <p class="muted">
+          Action generation for a mobile industrial manipulator from spoken commands. Every plan passes a safety
+          validation stage before it can reach the robot.
+        </p>
+      </div>
+      <Pipeline />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="contact-h">
+    <div class="container contact">
+      <div class="section-head">
+        <p class="eyebrow">Contact</p>
+        <h2 id="contact-h">Open to robotics and AI engineering roles</h2>
+        <p class="muted">{profile.roles.join(' · ')}</p>
+      </div>
+      <div class="cta">
+        {
+          profile.contact.map((c) => (
+            <a class="btn" href={c.href} target="_blank" rel="noopener me">
+              {c.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    padding-block: clamp(72px, 14vw, 140px) clamp(56px, 9vw, 96px);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-position: -1px -1px;
+    mask-image: radial-gradient(ellipse 80% 70% at 30% 30%, #000 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 30% 30%, #000 30%, transparent 80%);
+  }
+  .hero .container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .hero .lead {
+    max-width: 620px;
+  }
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 48px;
+    margin: 32px 0 0;
+  }
+  .facts dt {
+    color: var(--text-3);
+    font-size: 0.75rem;
+    margin-bottom: 4px;
+  }
+  .facts dd {
+    margin: 0;
+    font-weight: 550;
+  }
+  .facts dd span {
+    display: block;
+    font-weight: 400;
+    color: var(--text-2);
+    font-size: 0.9rem;
+  }
+  .focus {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .idx {
+    color: var(--accent);
+    font-size: 0.75rem;
+  }
+  .more {
+    margin-top: 24px;
+  }
+</style>

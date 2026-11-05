@@ -1,0 +1,50 @@
+---
+import type { ProjectStatus } from '../data/projects';
+
+interface Props {
+  status: ProjectStatus;
+}
+const { status } = Astro.props;
+const tone: Record<ProjectStatus, string> = {
+  'Proof of concept': 'ok',
+  'In progress': 'warn',
+  Ongoing: 'info',
+  Planned: 'muted',
+};
+---
+
+<span class:list={['badge', tone[status]]}><span class="dot" aria-hidden="true"></span>{status}</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    color: var(--text-2);
+    padding: 3px 9px 3px 8px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg);
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .ok .dot {
+    background: var(--ok);
+  }
+  .warn .dot {
+    background: var(--warn);
+  }
+  .info .dot {
+    background: var(--info);
+  }
+  .muted .dot {
+    background: var(--muted);
+  }
+</style>

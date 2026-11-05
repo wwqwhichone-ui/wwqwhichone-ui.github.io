@@ -1,0 +1,128 @@
+---
+import Base from '../layouts/Base.astro';
+import Pipeline from '../components/Pipeline.astro';
+import { profile } from '../data/profile';
+
+const progress = [
+  { item: 'Repository scaffold and typed module interfaces', done: true },
+  { item: 'Task-planning validation prototype (llm-robot-task-planner)', done: true },
+  { item: 'Speech-to-text baseline on recorded commands', done: false },
+  { item: 'LLM planner integrated with the safety validation layer', done: false },
+  { item: 'Simulation environment for the mobile manipulator', done: false },
+  { item: 'Evaluation: task success, latency, rejection of unsafe commands', done: false },
+];
+---
+
+<Base title="Research" description="MSc dissertation on voice-commanded action generation for mobile industrial manipulators.">
+  <section class="page-head">
+    <div class="container section-head">
+      <p class="eyebrow">MSc dissertation · HKU</p>
+      <h1>Action Generation of Mobile Industrial Manipulator based on Voice Commands</h1>
+      <p class="lead">
+        How can an operator instruct a mobile manipulator by voice, and how do we make sure what the robot does is what
+        was meant — and is safe?
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="arch-h">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">System architecture</p>
+        <h2 id="arch-h">Pipeline</h2>
+        <p class="muted">
+          Stages exchange typed messages only. The language model proposes plans; it never issues robot commands
+          directly. Low recognition confidence leads to a confirmation question instead of an action.
+        </p>
+      </div>
+      <Pipeline />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="int-h">
+    <div class="container grid grid-2">
+      <div>
+        <div class="section-head">
+          <p class="eyebrow">Interests</p>
+          <h2 id="int-h">Research interests</h2>
+        </div>
+        <ul class="list">
+          {
+            profile.focus.map((f) => (
+              <li>
+                <strong>{f.title}</strong> — {f.text}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div>
+        <div class="section-head">
+          <p class="eyebrow">Progress</p>
+          <h2>Public progress</h2>
+        </div>
+        <ul class="progress">
+          {
+            progress.map((p) => (
+              <li class:list={{ done: p.done }}>
+                <span class="box" aria-hidden="true">{p.done ? '✓' : ''}</span>
+                <span>{p.item}</span>
+                <span class="sr-only">{p.done ? '(done)' : '(not started or in progress)'}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="note muted">No experimental results are published yet. Findings will appear here after review.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: clamp(56px, 10vw, 104px) 8px;
+  }
+  .page-head .section-head {
+    max-width: 820px;
+  }
+  .page-head h1 {
+    font-size: clamp(1.875rem, 4.5vw, 2.75rem);
+  }
+  .progress {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .progress li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    color: var(--text-2);
+  }
+  .box {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+    border-radius: 5px;
+    border: 1px solid var(--border-strong);
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    color: var(--bg);
+  }
+  .done .box {
+    background: var(--ok);
+    border-color: var(--ok);
+  }
+  .done {
+    color: var(--text);
+  }
+  .note {
+    margin-top: 20px;
+    font-size: 0.9rem;
+  }
+</style>

@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import { profile } from '../data/profile';
+import { withBase } from '../lib/url';
+
+const { available, file } = profile.resume;
+const href = withBase(file);
+---
+
+<Base title="Resume" description="Resume of Weiqi Wang.">
+  <section class="page-head">
+    <div class="container section-head">
+      <p class="eyebrow">Resume</p>
+      <h1>Resume</h1>
+      {
+        available ? (
+          <p class="lead">View in the browser or download the PDF.</p>
+        ) : (
+          <p class="lead">The English resume will be published here soon.</p>
+        )
+      }
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      {
+        available ? (
+          <>
+            <a class="btn btn-primary" href={href} download>
+              Download PDF
+            </a>
+            <object class="viewer" data={href} type="application/pdf" aria-label="Resume PDF">
+              <p>
+                Your browser can't display PDFs inline. <a href={href}>Open the resume</a>.
+              </p>
+            </object>
+          </>
+        ) : (
+          <div class="card placeholder">
+            <p class="mono">resume/Weiqi_Wang_Resume.pdf</p>
+            <p class="muted">
+              Placeholder — no resume content is shown until the real document is added. In the meantime, see{' '}
+              <a href={withBase('about/')}>About</a> and <a href={withBase('projects/')}>Projects</a>.
+            </p>
+            <span class="btn" aria-disabled="true">
+              Download PDF (coming soon)
+            </span>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: clamp(56px, 10vw, 104px) 8px;
+  }
+  .page-head h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+  .viewer {
+    display: block;
+    width: 100%;
+    height: min(80vh, 1100px);
+    margin-top: 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .placeholder {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: flex-start;
+    border-style: dashed;
+    max-width: 640px;
+  }
+</style>

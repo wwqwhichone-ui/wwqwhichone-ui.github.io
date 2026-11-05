@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+---
+
+<Base title="Projects" description="Robotics and AI projects by Weiqi Wang, with honest status labels.">
+  <section class="page-head">
+    <div class="container section-head">
+      <p class="eyebrow">Projects</p>
+      <h1>Things I'm building</h1>
+      <p class="lead">
+        Each project shows its real status. Demos are linked only when they exist; private research code is marked as
+        such.
+      </p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container grid grid-2">
+      {projects.map((p) => <ProjectCard project={p} detailed />)}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: clamp(56px, 10vw, 104px) 8px;
+  }
+  .page-head h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+</style>

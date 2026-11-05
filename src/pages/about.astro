@@ -1,0 +1,113 @@
+---
+import Base from '../layouts/Base.astro';
+import { profile } from '../data/profile';
+---
+
+<Base title="About" description="Education, technical background and career interests of Weiqi Wang.">
+  <section class="page-head">
+    <div class="container section-head">
+      <p class="eyebrow">About</p>
+      <h1>Mechanics background, robotics focus</h1>
+      <p class="lead">{profile.summary}</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="edu-h">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Education</p>
+        <h2 id="edu-h">Education</h2>
+      </div>
+      <ol class="timeline">
+        {
+          profile.education.map((e) => (
+            <li class="card">
+              <p class="mono deg">{e.degree}</p>
+              <h3>{e.field}</h3>
+              <p class="muted">{e.school}</p>
+              {e.notes && (
+                <ul class="list notes">
+                  {e.notes.map((n) => (
+                    <li>{n}</li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="skills-h">
+    <div class="container grid grid-2">
+      <div>
+        <div class="section-head">
+          <p class="eyebrow">Toolbox</p>
+          <h2 id="skills-h">Technical learning</h2>
+          <p class="muted">Listed honestly: tools I use in projects, and tools I am currently learning.</p>
+        </div>
+      </div>
+      <div class="skills">
+        <div>
+          <h3>Using</h3>
+          <ul class="tags">{profile.skills.using.map((s) => <li class="tag">{s}</li>)}</ul>
+        </div>
+        <div>
+          <h3>Currently learning</h3>
+          <ul class="tags">{profile.skills.learning.map((s) => <li class="tag">{s}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="career-h">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Career</p>
+        <h2 id="career-h">What I'm looking for</h2>
+        <p class="muted">
+          Engineering roles where robotics and AI meet — building systems that understand instructions and act reliably
+          in the physical world.
+        </p>
+      </div>
+      <ul class="tags">{profile.roles.map((r) => <li class="tag">{r}</li>)}</ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: clamp(56px, 10vw, 104px) 8px;
+  }
+  .page-head h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+  }
+  .timeline li {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .deg {
+    color: var(--accent);
+    font-size: 0.75rem;
+  }
+  .notes {
+    margin-top: 10px;
+  }
+  .skills {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .skills h3 {
+    margin-bottom: 10px;
+  }
+</style>

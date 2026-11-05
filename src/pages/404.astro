@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import { withBase } from '../lib/url';
+---
+
+<Base title="Not found">
+  <section class="container nf">
+    <p class="eyebrow">404</p>
+    <h1>Page not found</h1>
+    <p class="lead">The page you're looking for doesn't exist.</p>
+    <a class="btn btn-primary" href={withBase('')}>Back home</a>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    padding-block: 120px;
+  }
+</style>

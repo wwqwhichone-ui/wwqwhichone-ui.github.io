@@ -1,0 +1,100 @@
+---
+/** Dissertation system pipeline: a responsive list of stages (no image, readable by screen readers). */
+const stages = [
+  { n: '01', title: 'Voice command', text: 'Operator speaks a task' },
+  { n: '02', title: 'Speech-to-text', text: 'Transcript + confidence' },
+  { n: '03', title: 'Language understanding', text: 'Intent and grounded entities' },
+  { n: '04', title: 'Task planning', text: 'LLM proposes a structured plan' },
+  { n: '05', title: 'Safety validation', text: 'Whitelist, limits, preconditions' },
+  { n: '06', title: 'Robot actions', text: 'Navigation + manipulation' },
+];
+---
+
+<ol class="pipeline" aria-label="System pipeline">
+  {
+    stages.map((s) => (
+      <li>
+        <span class="n mono">{s.n}</span>
+        <strong>{s.title}</strong>
+        <span class="t">{s.text}</span>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .pipeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--bg-elev);
+  }
+  li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 20px 18px;
+    border-right: 1px solid var(--border);
+  }
+  li:last-child {
+    border-right: 0;
+  }
+  li:nth-child(5) {
+    background: var(--accent-soft);
+  }
+  li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-top: 1px solid var(--border-strong);
+    border-right: 1px solid var(--border-strong);
+    background: var(--bg-elev);
+    transform: translateY(-50%) rotate(45deg);
+    z-index: 1;
+  }
+  .n {
+    color: var(--accent);
+    font-size: 0.75rem;
+  }
+  strong {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .t {
+    font-size: 0.85rem;
+    color: var(--text-2);
+    line-height: 1.45;
+  }
+  @media (max-width: 900px) {
+    .pipeline {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    li {
+      border-bottom: 1px solid var(--border);
+    }
+    li:nth-child(2n) {
+      border-right: 0;
+    }
+    li::after {
+      display: none;
+    }
+  }
+  @media (max-width: 480px) {
+    .pipeline {
+      grid-template-columns: 1fr;
+    }
+    li {
+      border-right: 0;
+    }
+  }
+</style>
