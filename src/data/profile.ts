@@ -66,7 +66,7 @@ export const profile = {
     },
   ] satisfies readonly Education[],
   skills: {
-    using: ['Python', 'Git & GitHub', 'VS Code', 'pytest', 'JSON Schema', 'LLM APIs', 'AI coding agents'],
+    using: ['Python', 'NumPy', 'Matplotlib', 'pytest', 'JSON Schema', 'LLM APIs', 'Git & GitHub', 'AI coding agents'],
     learning: ['ROS 2', 'Robot simulation', 'LLM agent design'],
   },
   contact: [

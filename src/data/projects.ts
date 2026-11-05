@@ -37,6 +37,40 @@ export const projects: Project[] = [
     repo: gh('llm-robot-task-planner'),
   },
   {
+    slug: 'robot-arm-kinematics',
+    title: 'Robot Arm Kinematics',
+    summary:
+      'A tested NumPy library for serial manipulators: DH forward kinematics, geometric Jacobians, damped-least-squares ' +
+      'inverse kinematics and quintic joint trajectories, with a UR5 model.',
+    highlights: [
+      'UR5 full-pose IK: 97.0% success on 500 random targets with 5 restarts',
+      'Jacobian verified against finite differences',
+      'Stable SO(3) log map near 0 and π',
+      '21 unit tests, CI on Python 3.10 and 3.12',
+    ],
+    stack: ['Python', 'NumPy', 'Matplotlib', 'pytest'],
+    status: 'Proof of concept',
+    featured: true,
+    repo: gh('robot-arm-kinematics'),
+  },
+  {
+    slug: 'mobile-robot-path-planning',
+    title: 'Mobile Robot Path Planning',
+    summary:
+      'A*, Dijkstra, RRT and RRT* on occupancy grids with obstacle inflation and path shortcutting, compared on ' +
+      'warehouse and narrow-corridor maps with a reproducible benchmark.',
+    highlights: [
+      'A* expands 5× fewer cells than Dijkstra on the warehouse map',
+      'RRT* with subtree cost propagation during rewiring',
+      'Shortcutting that never lengthens a path',
+      '19 unit tests, CI on Python 3.10 and 3.12',
+    ],
+    stack: ['Python', 'NumPy', 'Matplotlib', 'pytest'],
+    status: 'Proof of concept',
+    featured: true,
+    repo: gh('mobile-robot-path-planning'),
+  },
+  {
     slug: 'voice-controlled-mobile-manipulator',
     title: 'Voice-Controlled Mobile Manipulator',
     summary:
