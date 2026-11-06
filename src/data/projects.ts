@@ -10,6 +10,15 @@ export type ProjectCategory =
   | 'Automation'
   | 'Academic Projects';
 
+export const categoryZh: Record<ProjectCategory, string> = {
+  Robotics: '机器人',
+  'Artificial Intelligence': '人工智能',
+  'LLM & AI Agent': '大模型与智能体',
+  'Software Engineering': '软件工程',
+  Automation: '自动化',
+  'Academic Projects': '学术课题',
+};
+
 export interface Project {
   slug: string;
   title: string;

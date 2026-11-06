@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
 import ProjectArchitectureDiagram from '../../components/ProjectArchitectureDiagram.astro';
-import { projects, type Project } from '../../data/projects';
+import { projects, type Project, categoryZh } from '../../data/projects';
 import { withBase } from '../../lib/url';
 
 export function getStaticPaths() {
@@ -39,7 +39,7 @@ const demoHref = project.demo && (external ? project.demo : withBase(project.dem
     <!-- Project Header -->
     <header class="detail-header">
       <div class="meta-tags">
-        <span class="category-pill">{project.category}</span>
+        <span class="category-pill" data-en={project.category} data-zh={categoryZh[project.category]}>{project.category}</span>
         <StatusBadge status={project.status} />
       </div>
 

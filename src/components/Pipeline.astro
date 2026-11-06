@@ -1,12 +1,12 @@
 ---
 /** Dissertation system pipeline: a responsive list of stages (no image, readable by screen readers). */
 const stages = [
-  { n: '01', title: 'Voice command', text: 'Operator speaks a task' },
-  { n: '02', title: 'Speech-to-text', text: 'Transcript + confidence' },
-  { n: '03', title: 'Language understanding', text: 'Intent and grounded entities' },
-  { n: '04', title: 'Task planning', text: 'LLM proposes a structured plan' },
-  { n: '05', title: 'Safety validation', text: 'Whitelist, limits, preconditions' },
-  { n: '06', title: 'Robot actions', text: 'Navigation + manipulation' },
+  { n: '01', title: 'Voice command', titleZh: '语音指令', text: 'Operator speaks a task', textZh: '操作员口述作业任务' },
+  { n: '02', title: 'Speech-to-text', titleZh: '语音识别', text: 'Transcript + confidence', textZh: '文本转录与置信度评估' },
+  { n: '03', title: 'Language understanding', titleZh: '语义理解', text: 'Intent and grounded entities', textZh: '意图提取与空间实体接地' },
+  { n: '04', title: 'Task planning', titleZh: '任务规划', text: 'LLM proposes a structured plan', textZh: '大模型生成结构化任务计划' },
+  { n: '05', title: 'Safety validation', titleZh: '安全验证', text: 'Whitelist, limits, preconditions', textZh: '白名单、参数范围与前置条件校验' },
+  { n: '06', title: 'Robot actions', titleZh: '动作执行', text: 'Navigation + manipulation', textZh: '底盘导航与机械臂轨迹协同' },
 ];
 ---
 
@@ -15,8 +15,8 @@ const stages = [
     stages.map((s) => (
       <li>
         <span class="n mono">{s.n}</span>
-        <strong>{s.title}</strong>
-        <span class="t">{s.text}</span>
+        <strong data-en={s.title} data-zh={s.titleZh}>{s.title}</strong>
+        <span class="t" data-en={s.text} data-zh={s.textZh}>{s.text}</span>
       </li>
     ))
   }

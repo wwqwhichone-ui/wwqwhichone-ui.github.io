@@ -31,15 +31,15 @@ import { withBase } from '../lib/url';
         <div class="recruiter-glance card">
           <div class="glance-item">
             <span class="mono glance-tag" data-en="DEGREE" data-zh="学位背景">DEGREE</span>
-            <span class="glance-val">HKU MSc + NWPU BEng</span>
+            <span class="glance-val" data-en="HKU MSc + NWPU BEng" data-zh="港大硕士 + 西工大学士">HKU MSc + NWPU BEng</span>
           </div>
           <div class="glance-item">
             <span class="mono glance-tag" data-en="TARGET" data-zh="求职方向">TARGET</span>
-            <span class="glance-val">Robotics / AI Software</span>
+            <span class="glance-val" data-en="Robotics / AI Software" data-zh="机器人 / AI 软件工程">Robotics / AI Software</span>
           </div>
           <div class="glance-item">
             <span class="mono glance-tag" data-en="EVIDENCE" data-zh="可验证依据">EVIDENCE</span>
-            <span class="glance-val">3 public repos with CI</span>
+            <span class="glance-val" data-en="3 public repos with CI" data-zh="3 个开源仓库配备 CI">3 public repos with CI</span>
           </div>
         </div>
 
@@ -60,10 +60,10 @@ import { withBase } from '../lib/url';
           {
             profile.education.map((e) => (
               <div>
-                <dt class="mono">{e.degree}</dt>
+                <dt class="mono" data-en={e.degree} data-zh={e.degreeZh || e.degree}>{e.degree}</dt>
                 <dd>
-                  {e.field}
-                  <span>{e.school}</span>
+                  <span data-en={e.field} data-zh={e.fieldZh || e.field}>{e.field}</span>
+                  <span data-en={e.school} data-zh={e.schoolZh || e.school}>{e.school}</span>
                 </dd>
               </div>
             ))
