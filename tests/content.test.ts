@@ -23,7 +23,6 @@ const EVIDENCE: Record<string, string> = {
   '1045': 'mobile-robot-path-planning README, warehouse table, Dijkstra expanded',
   '15': 'portfolio: astro build reports 15 pages / warehouse map 15 m wide',
   '9 m': 'mobile-robot-path-planning README, warehouse 15.0 × 9.0 m',
-  '33': 'portfolio: vitest reports 33 tests passed across 4 suites',
 };
 
 const NUMBER = /\d+(?:\.\d+)?\s?(?:%|ms|m\b|毫秒)?/g;
@@ -83,5 +82,24 @@ describe('site copy', () => {
 
   it('uses the confirmed Chinese name', () => {
     expect(profile.nameZh).toContain('王威淇');
+  });
+
+  it('homepage Vitest metric matches test count in test suite', () => {
+    const testFiles = readdirSync('tests').filter((f) => f.endsWith('.test.ts'));
+    let totalIt = 0;
+    const itToken = 'i' + 't(';
+    for (const f of testFiles) {
+      const src = readFileSync(join('tests', f), 'utf8');
+      let idx = 0;
+      while ((idx = src.indexOf(itToken, idx)) !== -1) {
+        totalIt++;
+        idx += itToken.length;
+      }
+    }
+
+    const indexSrc = readFileSync('src/pages/index.astro', 'utf8');
+    const match = indexSrc.match(/<span class="mono v-metric">(\d+)<\/span>\s*<span class="v-label"[^>]*>\s*Vitest checks for this site/);
+    expect(match).not.toBeNull();
+    expect(Number(match![1])).toBe(totalIt);
   });
 });
