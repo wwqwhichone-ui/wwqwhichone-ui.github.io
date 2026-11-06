@@ -5,8 +5,11 @@
 
 export interface Education {
   school: string;
+  schoolZh?: string;
   degree: string;
+  degreeZh?: string;
   field: string;
+  fieldZh?: string;
   period?: string;
   notes?: string[];
   notesZh?: string[];
@@ -88,8 +91,11 @@ export const profile = {
   education: [
     {
       school: 'The University of Hong Kong (HKU)',
+      schoolZh: '香港大学 (HKU)',
       degree: 'MSc(Eng)',
+      degreeZh: '工学硕士',
       field: 'Robotics & Intelligent Systems',
+      fieldZh: '机器人与智能系统',
       period: '2025 to Present',
       notes: [
         'Curriculum: Robot Dynamics & Control, Machine Learning, Computer Vision, Autonomous Systems',
@@ -102,8 +108,11 @@ export const profile = {
     },
     {
       school: 'Northwestern Polytechnical University (NWPU)',
+      schoolZh: '西北工业大学 (NWPU)',
       degree: 'B.Eng.',
+      degreeZh: '工学学士',
       field: 'Engineering Mechanics',
+      fieldZh: '工程力学',
       period: '2021 to 2025',
       notes: [
         'Solid foundation in theoretical mechanics, continuum mechanics, computational methods, and linear algebra',

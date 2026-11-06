@@ -11,9 +11,17 @@ const tone: Record<ProjectStatus, string> = {
   Ongoing: 'info',
   Planned: 'muted',
 };
+const statusZh: Record<ProjectStatus, string> = {
+  'Proof of concept': '概念验证',
+  'In progress': '进行中',
+  Ongoing: '持续维护',
+  Planned: '规划中',
+};
 ---
 
-<span class:list={['badge', tone[status]]}><span class="dot" aria-hidden="true"></span>{status}</span>
+<span class:list={['badge', tone[status]]}
+  ><span class="dot" aria-hidden="true"></span><span data-en={status} data-zh={statusZh[status]}>{status}</span></span
+>
 
 <style>
   .badge {

@@ -133,30 +133,54 @@ const path = Astro.url.pathname;
     flex-shrink: 0;
   }
   @media (max-width: 640px) {
-    .brand-name {
-      display: none;
-    }
-    nav a {
-      padding: 6px 9px;
-      font-size: 0.8125rem;
-      min-height: 36px;
-      display: inline-flex;
-      align-items: center;
-    }
     .bar {
-      gap: 10px;
+      flex-wrap: wrap;
+      height: auto;
+      padding-block: 8px;
+      gap: 8px 0;
     }
-  }
-  @media (max-width: 480px) {
-    nav ul {
-      gap: 2px;
+    .brand {
+      gap: 8px;
     }
-    nav a {
-      padding: 5px 8px;
-      font-size: 0.775rem;
+    .brand-name {
+      font-size: 0.95rem;
     }
     .header-actions {
+      margin-left: auto;
       gap: 6px;
+    }
+    nav {
+      order: 3;
+      width: 100%;
+      margin-left: 0;
+      overflow-x: visible;
+    }
+    nav ul {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2px;
+      width: 100%;
+    }
+    nav li {
+      flex: 1 1 auto;
+      text-align: center;
+    }
+    nav a {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 6px 4px;
+      font-size: 0.8125rem;
+      min-height: 38px;
+      border-radius: var(--radius-sm);
+    }
+  }
+  @media (max-width: 360px) {
+    nav a {
+      padding: 5px 2px;
+      font-size: 0.75rem;
     }
   }
 </style>

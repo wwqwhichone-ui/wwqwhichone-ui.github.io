@@ -1,22 +1,23 @@
 # Test & Quality Verification Report
 
 **Project**: Weiqi Wang — Personal Developer Portfolio & Research Hub (`wwqwhichone-ui.github.io`)  
-**Testing Framework**: Vitest v5.1.0, Astro Check v0.9.12, TypeScript v6.0.3  
-**Execution Environment**: Apple Silicon Mac (macOS Darwin arm64), Node.js v24.22.1, npm 11.19.1  
+**Testing Framework**: Vitest v5.1.0, Astro Check, TypeScript v6.0.3  
 **Date**: November 2026  
-**Status**: **ALL TESTS PASSING (100% SUCCESS RATE)**
+**Status**: Passing
 
 ---
 
 ## 1. Test Execution Summary
 
-| Test Suite | File Path | Total Tests | Passed | Failed | Duration |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Astro & TypeScript Diagnostics** | All `.astro`, `.ts` files | 27 files | 27 | 0 | 25ms |
-| **Data Integrity & Authenticity** | `tests/data.test.ts` | 13 | 13 | 0 | 4ms |
-| **Path Planning Algorithm Suite** | `tests/planner.test.ts` | 10 | 10 | 0 | 9ms |
-| **Static Production Build** | `astro build` | 15 routes | 15 | 0 | 190ms |
-| **Total** | | **23 tests + 15 routes** | **All Passed** | **0** | **~250ms** |
+| Test Suite | File Path | Total Tests | Passed | Failed |
+| :--- | :--- | :--- | :--- | :--- |
+| **Astro & TypeScript Diagnostics** | All `.astro`, `.ts` files | 30 files | 30 | 0 |
+| **Data Integrity & Authenticity** | `tests/data.test.ts` | 13 | 13 | 0 |
+| **Path Planning Algorithm Suite** | `tests/planner.test.ts` | 10 | 10 | 0 |
+| **i18n Language Persistence** | `tests/lang.test.ts` | 4 | 4 | 0 |
+| **Content Evidence Verification** | `tests/content.test.ts` | 6 | 6 | 0 |
+| **Static Production Build** | `astro build` | 15 routes | 15 | 0 |
+| **Total** | | **33 tests + 15 routes** | **33** | **0** |
 
 ---
 
@@ -48,6 +49,19 @@
 * `rrt: is never shorter than the A* lower bound minus diagonal slack`: Asserts geometric lower bound consistency.
 * `rrt: fails cleanly when disconnected`: Verifies graceful failure and infinity cost on disconnected goals.
 * `mulberry32: produces values in [0, 1) deterministically`: Validates PRNG uniform distribution.
+
+### Suite C: i18n Language Persistence (`tests/lang.test.ts`)
+* `resolveLang`: Normalises stored or attribute values to a supported language.
+* `applyLanguage`: Swaps text of leaf elements, updates input placeholders, and preserves elements with children.
+* `preference persistence`: Re-applies saved language choice across page navigation and reloads.
+
+### Suite D: Content Evidence Verification (`tests/content.test.ts`)
+* `recorded evidence`: Verifies all quantitative results map to a documented, inspectable source in the repository.
+* `regression guard`: Guarantees unverified or contradictory metrics stay removed.
+* `unverifiable claims`: Prevents absolute marketing claims in page sources.
+* `contact verification`: Asserts only valid, public contact links are rendered.
+* `name verification`: Verifies candidate Chinese name matches confirmed identity.
+* `metric verification`: Dynamically asserts homepage Vitest counter matches total test cases across test files.
 
 ---
 

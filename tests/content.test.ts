@@ -83,4 +83,23 @@ describe('site copy', () => {
   it('uses the confirmed Chinese name', () => {
     expect(profile.nameZh).toContain('王威淇');
   });
+
+  it('homepage Vitest metric matches test count in test suite', () => {
+    const testFiles = readdirSync('tests').filter((f) => f.endsWith('.test.ts'));
+    let totalIt = 0;
+    const itToken = 'i' + 't(';
+    for (const f of testFiles) {
+      const src = readFileSync(join('tests', f), 'utf8');
+      let idx = 0;
+      while ((idx = src.indexOf(itToken, idx)) !== -1) {
+        totalIt++;
+        idx += itToken.length;
+      }
+    }
+
+    const indexSrc = readFileSync('src/pages/index.astro', 'utf8');
+    const match = indexSrc.match(/<span class="mono v-metric">(\d+)<\/span>\s*<span class="v-label"[^>]*>\s*Vitest checks for this site/);
+    expect(match).not.toBeNull();
+    expect(Number(match![1])).toBe(totalIt);
+  });
 });

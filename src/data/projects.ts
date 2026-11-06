@@ -10,6 +10,15 @@ export type ProjectCategory =
   | 'Automation'
   | 'Academic Projects';
 
+export const categoryZh: Record<ProjectCategory, string> = {
+  Robotics: '机器人',
+  'Artificial Intelligence': '人工智能',
+  'LLM & AI Agent': '大模型与智能体',
+  'Software Engineering': '软件工程',
+  Automation: '自动化',
+  'Academic Projects': '学术课题',
+};
+
 export interface Project {
   slug: string;
   title: string;
@@ -31,6 +40,8 @@ export interface Project {
   myContributionsZh: string[];
   challenges: string[];
   challengesZh: string[];
+  limitations: string[];
+  limitationsZh: string[];
   results: string[];
   resultsZh: string[];
   stack: string[];
@@ -108,6 +119,16 @@ export const projects: Project[] = [
     challengesZh: [
       '如何应对大模型输出格式的非确定性，做到无论模型输出何种脏数据均能优雅拦截与报错',
       '在保持自然语言丰富表达力与物理机器人严格执行约束之间取得平衡',
+    ],
+    limitations: [
+      'The rule-based grammar is deliberately small; it exists to make the pipeline demo-able offline.',
+      'The executor is a symbolic simulator, not a physics simulation, and there is no ROS interface yet.',
+      'No benchmark results are claimed. The Claude backend has not been evaluated systematically.',
+    ],
+    limitationsZh: [
+      '基于规则的小型语法仅用于离线演示管线。',
+      '执行器为符号化状态机模拟，暂无物理仿真或 ROS 接口。',
+      '未声明基准测试结果，Claude 后端尚未进行系统评估。',
     ],
     results: [
       'Every invalid-plan case in the 24-test suite is rejected before reaching the mock executor',
@@ -189,6 +210,14 @@ export const projects: Project[] = [
       '机械臂处于伸展或奇异构型时雅可比矩阵秩退化导致的数值发散',
       '利用 Lie 代数与 SO(3) 矩阵对数彻底消除欧拉角万向节死锁及四元数双倍覆盖不连续性',
     ],
+    limitations: [
+      'From a single zero-configuration seed, DLS IK misses about 1 in 6 targets (local minima / joint-limit clipping); five random restarts raise success to 97%.',
+      'A closed-form UR5 solver would be the next step for guaranteed solutions.',
+    ],
+    limitationsZh: [
+      '单次零初值阻尼最小二乘逆解因局部极值与关节限位截断约有 1/6 失败率（5 次随机重启提升至 97%）。',
+      '进一步获得保证解完备性需要实现 UR5 封闭解析解求解器。',
+    ],
     results: [
       '97.0% IK convergence rate on 500 uniform random reachable poses',
       '13.1 ms per full-pose solve with 5 restarts (6.1 ms without restarts) on Apple Silicon',
@@ -267,6 +296,14 @@ export const projects: Project[] = [
       '解决八向邻域搜索中穿越两相邻对角障碍物顶点的“穿墙穿角”假碰撞漏洞',
       '在密集采样环境下保证 RRT* 重连子树深度搜索更新时不出现堆栈溢出与性能骤降',
     ],
+    limitations: [
+      'The robot is modelled as a point on an inflated grid (no orientation or kinematic constraints).',
+      'Collision checks sample segments every 0.2 cells, which is conservative but not exact.',
+    ],
+    limitationsZh: [
+      '机器人被建模为膨胀栅格地图上的质点，未考虑航向角或非完整运动学约束。',
+      '碰撞检测按每 0.2 格步长进行离散线段采样，策略保守但非连续严格精确。',
+    ],
     results: [
       'Warehouse map (15 × 9 m): A* expands 202 cells vs Dijkstra 1045 for the same 18.22 m path',
       'Line-of-sight shortcutting shortens the A* path to 17.46 m and stays collision-free (examples/benchmark.py --seeds 10)',
@@ -342,6 +379,16 @@ export const projects: Project[] = [
       '解决口语指令中模糊空间指代实体的语义消歧与场景坐标映射',
       '在保证多层运动学逆解验证与碰撞检查完备性的同时维持系统实时响应性能',
     ],
+    limitations: [
+      'Repository scaffold and module interfaces only; no experimental results reported yet.',
+      'Simulation environment and evaluation protocol not yet built.',
+      'Research content is published only after supervisor review.',
+    ],
+    limitationsZh: [
+      '当前仅完成工程脚手架与模块抽象接口，暂未报告实验结果。',
+      '仿真验证环境与系统评测协议尚未搭建。',
+      '学术研究数据与实验成果须经导师审阅后公开。',
+    ],
     results: [
       'Academic research actively in progress (Interim Report phase)',
       'Repository scaffold and typed module interfaces completed; simulation environment not yet built',
@@ -397,6 +444,12 @@ export const projects: Project[] = [
     challengesZh: [
       '透彻理解不同构型机械臂在奇异点处自由度退化的几何本质',
     ],
+    limitations: [
+      'Not yet documented',
+    ],
+    limitationsZh: [
+      '暂未记录',
+    ],
     results: [
       'Notes and exercises on the same topics as robot-arm-kinematics and mobile-robot-path-planning',
     ],
@@ -448,6 +501,12 @@ export const projects: Project[] = [
     ],
     challengesZh: [
       '在外部工具持续返回非预期数据时，如何避免智能体陷入无意义的循环重试',
+    ],
+    limitations: [
+      'Not yet documented',
+    ],
+    limitationsZh: [
+      '暂未记录',
     ],
     results: [
       'Planned: no experiments published yet',
@@ -522,6 +581,12 @@ export const projects: Project[] = [
     challengesZh: [
       '如何在简约克制的高级科技美学下生动呈现复杂的机器人学数学概念',
       '通过自动化测试断言坚决捍卫项目陈述的客观真实性，杜绝任何数据虚构',
+    ],
+    limitations: [
+      'Not yet documented',
+    ],
+    limitationsZh: [
+      '暂未记录',
     ],
     results: [
       'Fully static output: 15 pages, no client-side API calls',

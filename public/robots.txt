@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://wwqwhichone-ui.github.io/sitemap-index.xml

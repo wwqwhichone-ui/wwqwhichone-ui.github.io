@@ -11,10 +11,10 @@ Use this checklist before and during public deployment to verify that all person
 ## Pre-Publication Verification (Local)
 
 - [x] **Automated Diagnostics**: `npm run check` returns 0 errors and 0 warnings.
-- [x] **Unit Testing Suite**: `npm test` runs 23/23 tests with 100% pass rate.
+- [x] **Unit Testing Suite**: `npm test` passes all tests across `data.test.ts`, `planner.test.ts`, `lang.test.ts`, and `content.test.ts`.
 - [x] **Static Production Build**: `npm run build` generates 15 static routes without errors.
-- [x] **Zero Secret Leakage**: No private tokens, API keys, or private phone numbers in source code.
-- [x] **Anti-Hallucination Audit**: No fake awards, fabricated papers, or unverified internships.
+- [x] **Secret Scanning**: No private tokens, API keys, or credentials in source code.
+- [x] **Content Verification**: Every number in project results is registered with a source in tests/content.test.ts.
 
 ---
 
@@ -36,13 +36,14 @@ Use this checklist before and during public deployment to verify that all person
 
 ### Step 1: Deploy Portfolio Website to GitHub Pages
 ```bash
-cd /Users/winstonwong/Documents/Dissertation/portfolio
+# Navigate to portfolio directory
+cd <path-to-portfolio>
 
 # Stage changes
 git add .
 
 # Commit with semantic message
-git commit -m "feat(release): v0.2.0 - recruiter-grade portfolio with i18n, visual architectures & verified skills"
+git commit -m "chore(release): update portfolio"
 
 # Push to main branch (triggers GitHub Actions automated deployment)
 git push origin main
@@ -53,7 +54,7 @@ git push origin main
 ```bash
 # Clone or switch to your profile repository
 cd /tmp && gh repo clone wwqwhichone-ui/wwqwhichone-ui profile-temp
-cp /Users/winstonwong/Documents/Dissertation/portfolio/GITHUB_PROFILE_README.md profile-temp/README.md
+cp GITHUB_PROFILE_README.md profile-temp/README.md
 cd profile-temp
 git add README.md
 git commit -m "docs: update profile README with verified robotics projects and portfolio link"

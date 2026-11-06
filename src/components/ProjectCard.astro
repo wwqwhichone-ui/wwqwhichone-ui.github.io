@@ -1,5 +1,6 @@
 ---
 import type { Project } from '../data/projects';
+import { categoryZh } from '../data/projects';
 import StatusBadge from './StatusBadge.astro';
 import { withBase } from '../lib/url';
 
@@ -16,7 +17,7 @@ const detailsHref = withBase(`projects/${project.slug}/`);
 <article class="card project" id={project.slug}>
   <header>
     <div class="meta-row">
-      <span class="category-badge">{project.category}</span>
+      <span class="category-badge" data-en={project.category} data-zh={categoryZh[project.category]}>{project.category}</span>
       <StatusBadge status={project.status} />
     </div>
     <h3>

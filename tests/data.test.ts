@@ -101,6 +101,8 @@ describe('profile data', () => {
       expect(p.resultsZh.length).toBeGreaterThan(0);
       expect(p.keyFeatures.length).toBeGreaterThan(0);
       expect(p.keyFeaturesZh.length).toBeGreaterThan(0);
+      expect(p.limitations.length).toBeGreaterThan(0);
+      expect(p.limitationsZh.length).toBeGreaterThan(0);
     }
   });
 });
