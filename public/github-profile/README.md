@@ -7,7 +7,7 @@
   <img src="https://raw.githubusercontent.com/wwqwhichone-ui/wwqwhichone-ui/main/assets/header.svg" alt="Weiqi Wang — Robotics × AI × Intelligent Systems" width="100%">
 </p>
 
-<h2 align="center">Weiqi Wang (王伟奇)</h2>
+<h2 align="center">Weiqi Wang (王威淇)</h2>
 <p align="center">
   <b>Robotics & AI Engineer | MSc(Eng) in Robotics & Intelligent Systems @ HKU</b><br>
   <i>Exploring Embodied AI, Safe LLM Task Planning, and Intelligent Industrial Manipulation</i>

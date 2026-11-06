@@ -5,6 +5,24 @@ The project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [Unreleased] — 2026-11-07 (independent audit fixes, not yet released)
+
+### Fixed
+* **Content accuracy** — project results now match the source repositories' READMEs:
+  * Path planning: A* 202 vs Dijkstra 1045 expanded cells (18.22 m), shortcut 17.46 m. Replaces the unsupported "17.56 m / 57 / 318" and "> 60%" figures.
+  * Kinematics: IK time 13.1 ms with 5 restarts (6.1 ms without). Replaces "< 8 ms".
+  * LLM planner: removed "100% rejected" and "zero hardware-level hallucination"; now states that no benchmarks are claimed.
+  * Dissertation: progress now matches `docs/roadmap.md` (scaffold and interfaces only; no simulation environment yet). Removed an unverified lab name and the "fine-tuned models" claim.
+  * Removed unmeasured "Lighthouse 100/100", "100% Runnable & Tested" and "Zero fake claims".
+* **Identity** — Chinese name corrected to 王威淇 (site JSON-LD and the profile README copy).
+* **Contact** — placeholder LinkedIn and "Email" links are no longer rendered (`publicContact`).
+* **Skills** — Git, LLM API and ROS 2 notes now describe only what the repos show.
+* **i18n** — a saved Chinese preference is now applied on every page load. Before this fix, pages showed English text after navigation or refresh. The logic now lives in `src/lib/lang.ts`.
+
+### Added
+* `tests/content.test.ts`: every number in project results must have a recorded source; removed claims must not return; placeholder contacts must not render.
+* `tests/lang.test.ts`: language application, including a regression test for the page-load bug.
+
 ## [0.2.0] — 2026-11-07
 
 ### 🚀 Major Improvements & Sprint Features

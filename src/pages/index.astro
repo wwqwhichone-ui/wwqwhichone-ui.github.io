@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Pipeline from '../components/Pipeline.astro';
-import { GITHUB_URL, profile } from '../data/profile';
+import { GITHUB_URL, profile, publicContact } from '../data/profile';
 import { featuredProjects } from '../data/projects';
 import { withBase } from '../lib/url';
 ---
@@ -38,8 +38,8 @@ import { withBase } from '../lib/url';
             <span class="glance-val">Robotics / AI Software</span>
           </div>
           <div class="glance-item">
-            <span class="mono glance-tag" data-en="VERIFICATION" data-zh="代码真实度">VERIFICATION</span>
-            <span class="glance-val text-ok">100% Runnable & Tested</span>
+            <span class="mono glance-tag" data-en="EVIDENCE" data-zh="可验证依据">EVIDENCE</span>
+            <span class="glance-val">3 public repos with CI</span>
           </div>
         </div>
 
@@ -130,15 +130,15 @@ import { withBase } from '../lib/url';
     <div class="container">
       <div class="verified-banner card">
         <div class="v-col">
-          <span class="mono v-metric">100%</span>
-          <span class="v-label" data-en="Verified & Factual (Zero fake claims)" data-zh="真实可溯实证（严禁虚构成果）">
-            Verified & Factual (Zero fake claims)
+          <span class="mono v-metric">64</span>
+          <span class="v-label" data-en="Pytest cases across 3 robotics repos (run in CI)" data-zh="3 个机器人仓库中的 pytest 用例（CI 运行）">
+            Pytest cases across 3 robotics repos (run in CI)
           </span>
         </div>
         <div class="v-col">
-          <span class="mono v-metric">64+</span>
-          <span class="v-label" data-en="Automated Pytest & Vitest Unit Tests" data-zh="单元测试用例保障数理与逻辑正确性">
-            Automated Pytest & Vitest Unit Tests
+          <span class="mono v-metric">32</span>
+          <span class="v-label" data-en="Vitest checks for this site" data-zh="本站的 Vitest 测试用例">
+            Vitest checks for this site
           </span>
         </div>
         <div class="v-col">
@@ -230,7 +230,7 @@ import { withBase } from '../lib/url';
       </div>
       <div class="cta">
         {
-          profile.contact.map((c) => (
+          publicContact.map((c) => (
             <a class="btn" href={c.href} target="_blank" rel="noopener me">
               {c.label}
             </a>

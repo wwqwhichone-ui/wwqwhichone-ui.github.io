@@ -110,12 +110,12 @@ export const projects: Project[] = [
       '在保持自然语言丰富表达力与物理机器人严格执行约束之间取得平衡',
     ],
     results: [
-      '100% of invalid proposals correctly rejected without system crashes',
-      'Verified zero hardware-level hallucinated action execution across test matrix',
+      'Every invalid-plan case in the 24-test suite is rejected before reaching the mock executor',
+      'No benchmark results are claimed; the optional Claude backend has not been evaluated systematically',
     ],
     resultsZh: [
-      '测试集中 100% 的非法任务提议被精准拦截，系统无异常崩溃',
-      '在自动化测试矩阵中证实彻底消除了大模型幻觉直接驱动执行器的风险',
+      '24 个单元测试中覆盖的所有非法任务提议均在到达仿真执行器之前被拦截',
+      '暂不声称任何基准评测结果；可选的 Claude 后端尚未经过系统评估',
     ],
     stack: ['Python', 'JSON Schema', 'pytest', 'Claude API', 'GitHub Actions'],
     status: 'Proof of concept',
@@ -191,11 +191,11 @@ export const projects: Project[] = [
     ],
     results: [
       '97.0% IK convergence rate on 500 uniform random reachable poses',
-      'Mean execution time < 8ms per IK solve on Apple Silicon Mac',
+      '13.1 ms per full-pose solve with 5 restarts (6.1 ms without restarts) on Apple Silicon',
     ],
     resultsZh: [
       '在 500 个均匀随机可达目标位姿下获得 97.0% 逆解收敛率',
-      '在 Apple Silicon Mac 上平均单次逆解耗时小于 8 毫秒',
+      'Apple Silicon 上全姿态单次求解耗时 13.1 ms（5 次重试），不重试时为 6.1 ms',
     ],
     stack: ['Python', 'NumPy', 'Matplotlib', 'pytest', 'Linear Algebra'],
     status: 'Proof of concept',
@@ -268,12 +268,12 @@ export const projects: Project[] = [
       '在密集采样环境下保证 RRT* 重连子树深度搜索更新时不出现堆栈溢出与性能骤降',
     ],
     results: [
-      'Warehouse benchmark: A* path cost 17.56m (57 nodes expanded) vs Dijkstra (318 nodes expanded)',
-      'Shortcutting reduces path nodes by > 60% without introducing obstacle collisions',
+      'Warehouse map (15 × 9 m): A* expands 202 cells vs Dijkstra 1045 for the same 18.22 m path',
+      'Line-of-sight shortcutting shortens the A* path to 17.46 m and stays collision-free (examples/benchmark.py --seeds 10)',
     ],
     resultsZh: [
-      '仓储地图基准实测：A* 路径成本 17.56m（仅遍历 57 个节点），较 Dijkstra（318 个节点）计算开销大幅降低',
-      '视线平滑算法使路径拐点数降低 60% 以上，显著提升移动底盘运行平顺度',
+      '仓储地图（15 × 9 m）实测：同为 18.22 m 的最优路径，A* 扩展 202 个栅格，Dijkstra 扩展 1045 个',
+      '视线平滑将 A* 路径缩短至 17.46 m，且保持无碰撞（examples/benchmark.py --seeds 10）',
     ],
     stack: ['Python', 'NumPy', 'Matplotlib', 'TypeScript', 'HTML5 Canvas', 'pytest'],
     status: 'Proof of concept',
@@ -293,11 +293,11 @@ export const projects: Project[] = [
     problemStatement:
       'How to enable shopfloor operators to safely instruct a mobile manipulator using casual spoken speech, while guaranteeing kinematic feasibility, collision avoidance, and spatial safety?',
     problemStatementZh:
-      '如何让工业车间操作人员能够通过口头自然语言指令指挥移动机械臂协同作业，并在底层百分之百确保运动学可达性、环境防碰撞与物理安全性？',
+      '如何让工业车间操作人员能够通过口头自然语言指令指挥移动机械臂协同作业，并在执行前验证运动学可达性、环境防碰撞与物理安全性？',
     overview:
-      'Current MSc dissertation project at The University of Hong Kong. Developing a modular, safety-critical architecture that captures speech, generates structured task plans using fine-tuned prompts and models, and passes them through spatial and kinematic feasibility checks before execution.',
+      'Current MSc dissertation project at The University of Hong Kong. Developing a modular, safety-critical architecture that captures speech, generates structured task plans with an LLM, and is designed to pass them through spatial and kinematic feasibility checks before execution.',
     overviewZh:
-      '香港大学智能制造与机器人实验室在研硕士学位论文课题。开发一套高安全性模块化架构：捕获人声语音输入，经由专用提示词与任务大模型生成候选动作，在下发到底盘与机械臂底层之前通过几何可达性与空间防碰撞验证。',
+      '香港大学在读硕士学位论文课题（进行中）。开发一套高安全性模块化架构：捕获人声语音输入，经由大模型生成候选动作，设计上在下发到底盘与机械臂底层之前通过几何可达性与空间防碰撞验证。',
     architecture:
       'Audio Input → Speech-to-Text with Confidence Scoring → Disambiguation & Confirmation Dialog → LLM Task Decomposition → Safety & Reachability Air-Gap → Coordinated Base Navigation & Arm Trajectory Execution',
     architectureZh:
@@ -344,11 +344,11 @@ export const projects: Project[] = [
     ],
     results: [
       'Academic research actively in progress (Interim Report phase)',
-      'Simulation environment and mock execution testbench established',
+      'Repository scaffold and typed module interfaces completed; simulation environment not yet built',
     ],
     resultsZh: [
-      '学术课题按计划积极推进中（目前处于中期研发与仿真实验阶段）',
-      '已搭建离线仿真验证环境与模拟状态机流水线',
+      '学术课题进行中（Interim Report 阶段）',
+      '已完成仓库脚手架与模块接口定义；仿真环境尚未搭建',
     ],
     stack: ['Python', 'Speech Recognition', 'LLM Planning', 'Robotics Simulation', 'ROS 2 (Planned)'],
     status: 'In progress',
@@ -398,10 +398,10 @@ export const projects: Project[] = [
       '透彻理解不同构型机械臂在奇异点处自由度退化的几何本质',
     ],
     results: [
-      'Directly served as the mathematical and algorithmic foundation for robot-arm-kinematics and mobile-robot-path-planning',
+      'Notes and exercises on the same topics as robot-arm-kinematics and mobile-robot-path-planning',
     ],
     resultsZh: [
-      '推导成果直接为后续开源库 robot-arm-kinematics 与 mobile-robot-path-planning 奠定了算法底座',
+      '与 robot-arm-kinematics、mobile-robot-path-planning 同主题的学习笔记与练习',
     ],
     stack: ['Python', 'NumPy', 'Robotics Theory', 'Linear Algebra'],
     status: 'Ongoing',
@@ -450,10 +450,10 @@ export const projects: Project[] = [
       '在外部工具持续返回非预期数据时，如何避免智能体陷入无意义的循环重试',
     ],
     results: [
-      'Ongoing technical explorations guiding the voice-command action parser architecture',
+      'Planned: no experiments published yet',
     ],
     resultsZh: [
-      '实验结论持续反哺于硕士课题中语言到动作序列的智能体解析器设计',
+      '规划中：尚未发布实验结果',
     ],
     stack: ['Python', 'LLM APIs', 'Agent Frameworks', 'Automation'],
     status: 'Planned',
@@ -482,13 +482,13 @@ export const projects: Project[] = [
     architectureZh:
       'Astro 静态网页编译 + TypeScript 强类型数据模型 + Tailwind CSS 现代化样式 + GitHub Actions 自动化持续集成与 Pages 托管',
     highlights: [
-      '100% static output with near-instant page loads',
+      'Fully static output generated at build time (Astro SSG)',
       'Bilingual support (English & Chinese) with instant client toggle',
       'Built-in interactive A*/RRT path planning simulator',
       'Strict TypeScript verification and automated test coverage',
     ],
     highlightsZh: [
-      '100% 纯静态生成，首屏加载近乎瞬时响应',
+      '构建时生成的纯静态站点（Astro SSG）',
       '支持中英文双语平滑即时切换',
       '内置实时交互式 A* 与 RRT* 路径规划模拟画板',
       '严格的 TypeScript 类型安全与 Vitest 自动化单元测试保护',
@@ -524,11 +524,11 @@ export const projects: Project[] = [
       '通过自动化测试断言坚决捍卫项目陈述的客观真实性，杜绝任何数据虚构',
     ],
     results: [
-      'Perfect 100/100 Lighthouse performance metrics on static hosting',
+      'Fully static output: 15 pages, no client-side API calls',
       'Continuous verification on every git push with GitHub Actions',
     ],
     resultsZh: [
-      '在静态托管下取得接近满分的 Lighthouse 性能与无障碍体验表现',
+      '纯静态输出：15 个页面，无客户端 API 请求',
       '每一次代码提交均通过 GitHub Actions 自动化回归验证',
     ],
     stack: ['Astro', 'TypeScript', 'Tailwind CSS', 'Vitest', 'GitHub Pages', 'GitHub Actions'],
