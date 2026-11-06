@@ -36,7 +36,7 @@ export const GITHUB_URL = `https://github.com/${GITHUB_USERNAME}`;
 
 export const profile = {
   name: 'Weiqi Wang',
-  nameZh: '王伟奇 (Weiqi Wang)',
+  nameZh: '王威淇 (Weiqi Wang)',
   headline: 'Robotics & AI Engineer | Intelligent Systems',
   headlineZh: '机器人与人工智能工程师 · 智能系统方向',
   tagline: 'MSc Robotics & Intelligent Systems @ HKU — exploring embodied AI, LLM agents and intelligent robotics.',
@@ -132,7 +132,7 @@ export const profile = {
         { name: 'Geometric Jacobian & Manipulability', level: 'using', note: 'Singularity analysis, Yoshikawa index', projectSlug: 'robot-arm-kinematics' },
         { name: 'Path Planning (A*, Dijkstra, RRT, RRT*)', level: 'using', note: 'Occupancy grids, obstacle inflation, line-of-sight shortcutting', projectSlug: 'mobile-robot-path-planning' },
         { name: 'Trajectory Generation', level: 'using', note: 'Quintic joint polynomials with boundary constraints', projectSlug: 'robot-arm-kinematics' },
-        { name: 'ROS 2 / Simulation', level: 'learning', note: 'Nodes, topics, URDF, Gazebo integration in progress', projectSlug: 'voice-controlled-mobile-manipulator' },
+        { name: 'ROS 2 / Simulation', level: 'learning', note: 'Studying nodes, topics and URDF; not yet used in a project' },
       ],
     },
     {
@@ -141,7 +141,7 @@ export const profile = {
       items: [
         { name: 'Structured Outputs & JSON Schema', level: 'using', note: 'Draft 2020-12 strict typing and whitelist parameter validation', projectSlug: 'llm-robot-task-planner' },
         { name: 'Multi-Layer Safety Validation', level: 'using', note: 'Schema → world grounding → precondition state machine', projectSlug: 'llm-robot-task-planner' },
-        { name: 'LLM API Integration', level: 'using', note: 'Prompt engineering, tool calling, function orchestration', projectSlug: 'llm-robot-task-planner' },
+        { name: 'LLM API Integration', level: 'using', note: 'Structured outputs via an optional Claude API planner backend (not yet systematically evaluated)', projectSlug: 'llm-robot-task-planner' },
         { name: 'Autonomous Agent Design', level: 'learning', note: 'Tool-use agents, multi-step error recovery workflows', projectSlug: 'ai-agent-experiments' },
       ],
     },
@@ -160,7 +160,7 @@ export const profile = {
       title: 'Tools & DevOps',
       titleZh: '开发工具与工程协作',
       items: [
-        { name: 'Git & GitHub', level: 'using', note: 'Branching, PRs, code review, issue tracking', projectSlug: 'mobile-robot-path-planning' },
+        { name: 'Git & GitHub', level: 'using', note: 'Version control for all public repos; CI on every push', projectSlug: 'mobile-robot-path-planning' },
         { name: 'GitHub Actions', level: 'using', note: 'Automated CI test matrices on Python 3.10/3.12, Pages deploy', projectSlug: 'llm-robot-task-planner' },
         { name: 'Linux / macOS', level: 'using', note: 'Unix CLI, shell tooling, virtual environments' },
       ],
@@ -173,9 +173,7 @@ export const profile = {
   },
   contact: [
     { label: 'GitHub', href: GITHUB_URL },
-    // Configurable placeholders without publishing sensitive personal data:
-    { label: 'LinkedIn', href: 'https://linkedin.com/in/placeholder-profile', isPlaceholder: true },
-    { label: 'Email', href: 'https://github.com/wwqwhichone-ui', isPlaceholder: true },
+    // Add LinkedIn / email here once confirmed. Entries marked isPlaceholder are never rendered.
   ] satisfies readonly ContactLink[],
   resume: {
     /** Set to true after placing public/resume/Weiqi_Wang_Resume.pdf */
@@ -183,3 +181,6 @@ export const profile = {
     file: 'resume/Weiqi_Wang_Resume.pdf',
   },
 } as const;
+
+/** Contact links that are safe to render (placeholders filtered out). */
+export const publicContact: readonly ContactLink[] = (profile.contact as readonly ContactLink[]).filter((c) => !c.isPlaceholder);

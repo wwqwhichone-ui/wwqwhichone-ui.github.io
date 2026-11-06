@@ -1,5 +1,5 @@
 ---
-import { profile } from '../data/profile';
+import { profile, publicContact } from '../data/profile';
 const year = new Date().getFullYear();
 ---
 
@@ -8,7 +8,7 @@ const year = new Date().getFullYear();
     <p>© {year} {profile.name}</p>
     <ul class="links">
       {
-        profile.contact.map((c) => (
+        publicContact.map((c) => (
           <li>
             <a href={c.href} rel="me noopener" target="_blank">
               {c.label}

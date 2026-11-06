@@ -15,51 +15,36 @@
 </button>
 
 <script>
+  import { applyLanguage, resolveLang, type Lang } from '../lib/lang';
+
   function setupLangToggle() {
     const btn = document.getElementById('lang-toggle');
     const label = document.getElementById('lang-current');
-    if (!btn || !label) return;
+    if (!btn || !label || btn.dataset.bound === 'true') return;
+    btn.dataset.bound = 'true';
+    const sub = btn.querySelector('.lang-sub');
 
-    function applyLanguage(lang: 'en' | 'zh') {
-      document.documentElement.dataset.lang = lang;
-      document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
-      try {
-        localStorage.setItem('lang', lang);
-      } catch (_) {}
+    function setLanguage(lang: Lang, persist: boolean) {
+      applyLanguage(document, lang);
+      if (persist) {
+        try {
+          localStorage.setItem('lang', lang);
+        } catch (_) {}
+      }
       label!.textContent = lang === 'zh' ? '中' : 'EN';
-      const sub = btn?.querySelector('.lang-sub');
       if (sub) sub.textContent = lang === 'zh' ? 'EN' : '中';
-
-      // Update elements with data-en / data-zh attributes
-      document.querySelectorAll<HTMLElement>('[data-en][data-zh]').forEach((el) => {
-        const text = lang === 'zh' ? el.getAttribute('data-zh') : el.getAttribute('data-en');
-        if (text) {
-          if (el.dataset.i18nTarget === 'placeholder' && 'placeholder' in el) {
-            (el as HTMLInputElement).placeholder = text;
-          } else {
-            // Only update direct text nodes if child elements exist, or full text if flat
-            if (el.children.length === 0) {
-              el.textContent = text;
-            }
-          }
-        }
-      });
-
-      // Dispatch custom event for dynamic components (like canvas demo)
+      // Dynamic components (like the canvas demo) listen for this.
       window.dispatchEvent(new CustomEvent('languagechange', { detail: { lang } }));
     }
 
     btn.addEventListener('click', () => {
-      const current = document.documentElement.dataset.lang === 'zh' ? 'zh' : 'en';
-      const next = current === 'zh' ? 'en' : 'zh';
-      applyLanguage(next);
+      const next = resolveLang(document.documentElement.dataset.lang) === 'zh' ? 'en' : 'zh';
+      setLanguage(next, true);
     });
 
-    // Initialize labels on load
-    const saved = (document.documentElement.dataset.lang as 'en' | 'zh') || 'en';
-    label.textContent = saved === 'zh' ? '中' : 'EN';
-    const sub = btn.querySelector('.lang-sub');
-    if (sub) sub.textContent = saved === 'zh' ? 'EN' : '中';
+    // Re-apply the saved preference on every page load (the inline head script
+    // only sets data-lang; the text itself must be swapped here).
+    setLanguage(resolveLang(document.documentElement.dataset.lang), false);
   }
 
   setupLangToggle();
