@@ -93,7 +93,7 @@ export const profile = {
       school: 'The University of Hong Kong (HKU)',
       schoolZh: '香港大学 (HKU)',
       degree: 'MSc(Eng)',
-      degreeZh: '工程硕士',
+      degreeZh: '工学硕士',
       field: 'Robotics & Intelligent Systems',
       fieldZh: '机器人与智能系统',
       period: '2025 to Present',
