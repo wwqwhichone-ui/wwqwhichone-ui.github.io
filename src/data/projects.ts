@@ -381,12 +381,12 @@ export const projects: Project[] = [
     ],
     limitations: [
       'Repository scaffold and module interfaces only; no experimental results reported yet.',
-      'Simulation environment and evaluation protocol currently in progress.',
+      'Simulation environment and evaluation protocol not yet built.',
       'Research content is published only after supervisor review.',
     ],
     limitationsZh: [
       '当前仅完成工程脚手架与模块抽象接口，暂未报告实验结果。',
-      '仿真验证环境与系统评测协议正在研制中。',
+      '仿真验证环境与系统评测协议尚未搭建。',
       '学术研究数据与实验成果须经导师审阅后公开。',
     ],
     results: [
