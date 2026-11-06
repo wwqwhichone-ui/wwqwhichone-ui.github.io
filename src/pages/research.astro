@@ -4,75 +4,134 @@ import Pipeline from '../components/Pipeline.astro';
 import { profile } from '../data/profile';
 
 const progress = [
-  { item: 'Repository scaffold and typed module interfaces', done: true },
-  { item: 'Task-planning validation prototype (llm-robot-task-planner)', done: true },
-  { item: 'Speech-to-text baseline on recorded commands', done: false },
-  { item: 'LLM planner integrated with the safety validation layer', done: false },
-  { item: 'Simulation environment for the mobile manipulator', done: false },
-  { item: 'Evaluation: task success, latency, rejection of unsafe commands', done: false },
+  {
+    item: 'Repository scaffold and typed module interfaces',
+    itemZh: '工程代码架构搭建与强类型模块通信接口定义',
+    done: true,
+  },
+  {
+    item: 'Task-planning validation prototype (llm-robot-task-planner)',
+    itemZh: '大模型任务规划与三层安全验证原型验证 (llm-robot-task-planner)',
+    done: true,
+  },
+  {
+    item: 'Kinematics library & UR5 Jacobian reachability (robot-arm-kinematics)',
+    itemZh: '机械臂运动学与 UR5 雅可比可达性算法库验证 (robot-arm-kinematics)',
+    done: true,
+  },
+  {
+    item: 'Speech-to-text acoustic model baseline on industrial domain commands',
+    itemZh: '面向工业车间场景的语音识别与意图提取基准评测',
+    done: false,
+  },
+  {
+    item: 'LLM task planner integrated with spatial reachability and collision air-gap',
+    itemZh: '任务大模型与空间几何防碰撞安全准入隔离带集成',
+    done: false,
+  },
+  {
+    item: 'Simulation environment and trajectory execution for mobile manipulator',
+    itemZh: '移动工业机械臂全真物理仿真环境与轨迹协同下发',
+    done: false,
+  },
+  {
+    item: 'Systematic evaluation: task success rate, latency, and rejection of unsafe commands',
+    itemZh: '综合实验评测：任务执行成功率、响应延迟与危险指令拦截率',
+    done: false,
+  },
 ];
 ---
 
-<Base title="Research" description="MSc dissertation on voice-commanded action generation for mobile industrial manipulators.">
+<Base
+  title="Research"
+  description="MSc dissertation on voice-commanded action generation for mobile industrial manipulators at The University of Hong Kong."
+>
   <section class="page-head">
     <div class="container section-head">
-      <p class="eyebrow">MSc dissertation · HKU</p>
-      <h1>Action Generation of Mobile Industrial Manipulator based on Voice Commands</h1>
-      <p class="lead">
-        How can an operator instruct a mobile manipulator by voice, and how do we make sure what the robot does is what
-        was meant — and is safe?
+      <p class="eyebrow" data-en="MSc Dissertation · The University of Hong Kong" data-zh="香港大学 硕士学位论文课题">
+        MSc Dissertation · The University of Hong Kong
+      </p>
+      <h1 data-en="Voice Command-Based Action Generation for Mobile Industrial Manipulators" data-zh="基于语音指令的移动工业机械臂动作生成与安全验证">
+        Voice Command-Based Action Generation for Mobile Industrial Manipulators
+      </h1>
+      <p
+        class="lead"
+        data-en="How can an operator instruct a mobile manipulator using spoken speech, and how do we deterministically ensure what the robot does is strictly what was meant — and is safe?"
+        data-zh="工业车间操作人员如何使用自然人声口语指挥移动机械臂协同作业？我们又该如何在底层确定性地保证机器人的物理动作百分之百安全且符合真实意图？"
+      >
+        How can an operator instruct a mobile manipulator using spoken speech, and how do we deterministically ensure
+        what the robot does is strictly what was meant — and is safe?
       </p>
     </div>
   </section>
 
+  <!-- Section: Architecture & Pipeline -->
   <section class="section" aria-labelledby="arch-h">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">System architecture</p>
-        <h2 id="arch-h">Pipeline</h2>
-        <p class="muted">
-          Stages exchange typed messages only. The language model proposes plans; it never issues robot commands
-          directly. Low recognition confidence leads to a confirmation question instead of an action.
+        <p class="eyebrow" data-en="System Architecture" data-zh="系统架构方案">System Architecture</p>
+        <h2 id="arch-h" data-en="End-to-End Safety Pipeline" data-zh="端到端安全执行管线">End-to-End Safety Pipeline</h2>
+        <p
+          class="muted"
+          data-en="Stages exchange strictly typed messages. The language model proposes candidate plans; it never directly drives robot actuators. Low recognition confidence triggers an interactive confirmation dialog instead of a blind action."
+          data-zh="各模块之间仅通过强类型数据协议进行通信。语言大模型仅负责提出任务假设提议，绝不能越权直接下发底层电机动作。当语音识别置信度低于预设阈值时，系统主动发起人机确认提问而非盲目执行。"
+        >
+          Stages exchange strictly typed messages. The language model proposes candidate plans; it never directly
+          drives robot actuators. Low recognition confidence triggers an interactive confirmation dialog instead of a
+          blind action.
         </p>
       </div>
       <Pipeline />
     </div>
   </section>
 
+  <!-- Section: Research Interests & Progress -->
   <section class="section" aria-labelledby="int-h">
     <div class="container grid grid-2">
       <div>
         <div class="section-head">
-          <p class="eyebrow">Interests</p>
-          <h2 id="int-h">Research interests</h2>
+          <p class="eyebrow" data-en="Research Focus" data-zh="研究侧重点">Research Focus</p>
+          <h2 id="int-h" data-en="Key Scientific Questions" data-zh="核心科学与工程问题">Key Scientific Questions</h2>
         </div>
         <ul class="list">
           {
             profile.focus.map((f) => (
               <li>
-                <strong>{f.title}</strong> — {f.text}
+                <strong>
+                  <span data-en={f.title} data-zh={f.titleZh}>{f.title}</span>
+                </strong>
+                {' — '}
+                <span data-en={f.text} data-zh={f.textZh}>{f.text}</span>
               </li>
             ))
           }
         </ul>
       </div>
+
       <div>
         <div class="section-head">
-          <p class="eyebrow">Progress</p>
-          <h2>Public progress</h2>
+          <p class="eyebrow" data-en="Milestone Tracker" data-zh="研发里程碑">Milestone Tracker</p>
+          <h2 data-en="Public Progress Status" data-zh="公开研发进度">Public Progress Status</h2>
         </div>
         <ul class="progress">
           {
             progress.map((p) => (
               <li class:list={{ done: p.done }}>
                 <span class="box" aria-hidden="true">{p.done ? '✓' : ''}</span>
-                <span>{p.item}</span>
-                <span class="sr-only">{p.done ? '(done)' : '(not started or in progress)'}</span>
+                <span data-en={p.item} data-zh={p.itemZh}>{p.item}</span>
+                <span class="sr-only">{p.done ? '(completed)' : '(in progress)'}</span>
               </li>
             ))
           }
         </ul>
-        <p class="note muted">No experimental results are published yet. Findings will appear here after review.</p>
+        <p
+          class="note muted"
+          data-en="Notice: In adherence to research honesty, no experimental results or metrics are published prior to formal dissertation milestone reviews. Verified findings will appear here upon review."
+          data-zh="注：严格遵守学术诚信准则，在通过学院正式学位论文阶段答辩与评审前，不提前公布未定稿的实测指标。经正式核验的数据将在此实时更新。"
+        >
+          Notice: In adherence to research honesty, no experimental results or metrics are published prior to formal
+          dissertation milestone reviews. Verified findings will appear here upon review.
+        </p>
       </div>
     </div>
   </section>
@@ -80,13 +139,14 @@ const progress = [
 
 <style>
   .page-head {
-    padding-block: clamp(56px, 10vw, 104px) 8px;
+    padding-block: clamp(56px, 10vw, 104px) 16px;
   }
   .page-head .section-head {
     max-width: 820px;
   }
   .page-head h1 {
     font-size: clamp(1.875rem, 4.5vw, 2.75rem);
+    line-height: 1.15;
   }
   .progress {
     list-style: none;
@@ -94,35 +154,41 @@ const progress = [
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
   }
   .progress li {
     display: flex;
     gap: 12px;
     align-items: flex-start;
     color: var(--text-2);
+    font-size: 0.9375rem;
+    line-height: 1.5;
   }
   .box {
     flex: none;
-    width: 18px;
-    height: 18px;
-    margin-top: 3px;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
     border-radius: 5px;
     border: 1px solid var(--border-strong);
     display: grid;
     place-items: center;
     font-size: 12px;
+    font-weight: 700;
     color: var(--bg);
   }
   .done .box {
-    background: var(--ok);
-    border-color: var(--ok);
+    background: var(--ok, #10b981);
+    border-color: var(--ok, #10b981);
   }
   .done {
     color: var(--text);
   }
   .note {
     margin-top: 20px;
-    font-size: 0.9rem;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
   }
 </style>

@@ -1,0 +1,405 @@
+---
+import Base from '../../layouts/Base.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import ProjectArchitectureDiagram from '../../components/ProjectArchitectureDiagram.astro';
+import { projects, type Project } from '../../data/projects';
+import { withBase } from '../../lib/url';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const external = project.demo?.startsWith('https://') ?? false;
+const demoHref = project.demo && (external ? project.demo : withBase(project.demo));
+---
+
+<Base
+  title={project.title}
+  description={`${project.title} — ${project.summary}`}
+>
+  <div class="project-detail-container container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href={withBase('projects/')} class="back-link">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true">
+          <path d="M11 1L4 8l7 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span data-en="Back to all projects" data-zh="返回项目列表">Back to all projects</span>
+      </a>
+    </nav>
+
+    <!-- Project Header -->
+    <header class="detail-header">
+      <div class="meta-tags">
+        <span class="category-pill">{project.category}</span>
+        <StatusBadge status={project.status} />
+      </div>
+
+      <h1 class="project-title">
+        <span data-en={project.title} data-zh={project.titleZh}>{project.title}</span>
+      </h1>
+
+      <p class="project-lead lead">
+        <span data-en={project.overview} data-zh={project.overviewZh}>{project.overview}</span>
+      </p>
+
+      <div class="actions-row">
+        {
+          project.repo && (
+            <a class="btn btn-primary" href={project.repo} target="_blank" rel="noopener">
+              <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                />
+              </svg>
+              <span data-en="View Repository" data-zh="查看 GitHub 仓库">View Repository</span>
+            </a>
+          )
+        }
+        {
+          demoHref && (
+            <a
+              class="btn"
+              href={demoHref}
+              {...(external ? { target: '_blank', rel: 'noopener' } : {})}
+            >
+              <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <circle cx="8" cy="8" r="6" />
+                <polygon points="6,5 11,8 6,11" fill="currentColor" stroke="none" />
+              </svg>
+              <span data-en="Launch Interactive Demo" data-zh="运行交互式 Demo">Launch Interactive Demo</span>
+            </a>
+          )
+        }
+        {
+          !project.repo && (
+            <span class="private-callout mono">
+              🔒 <span data-en="Private Research Code (MSc Dissertation)" data-zh="私有研究课题代码 (硕士在研)">Private Research Code (MSc Dissertation)</span>
+            </span>
+          )
+        }
+      </div>
+
+      <div class="tech-stack-section">
+        <span class="mono stack-label" data-en="Tech Stack:" data-zh="技术栈：">Tech Stack:</span>
+        <ul class="tags">
+          {project.stack.map((s) => <li class="tag">{s}</li>)}
+        </ul>
+      </div>
+    </header>
+
+    <div class="detail-body">
+      <!-- Section 1: Problem Statement -->
+      <section class="detail-card">
+        <h2 class="section-title">
+          <span class="section-num mono">01</span>
+          <span data-en="Problem Statement" data-zh="工程问题与背景">Problem Statement</span>
+        </h2>
+        <div class="callout-box">
+          <p class="callout-text">
+            <span data-en={project.problemStatement} data-zh={project.problemStatementZh}>{project.problemStatement}</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 2: Architecture & Pipeline -->
+      <section class="detail-card">
+        <h2 class="section-title">
+          <span class="section-num mono">02</span>
+          <span data-en="System Architecture & Flow" data-zh="系统架构与执行流">System Architecture & Flow</span>
+        </h2>
+        <ProjectArchitectureDiagram slug={project.slug} />
+        <div class="architecture-box">
+          <pre class="architecture-flow mono"><code><span data-en={project.architecture} data-zh={project.architectureZh}>{project.architecture}</span></code></pre>
+        </div>
+      </section>
+
+      <!-- Section 3: Key Features -->
+      <section class="detail-card">
+        <h2 class="section-title">
+          <span class="section-num mono">03</span>
+          <span data-en="Key Features & Capabilities" data-zh="核心功能与模块特性">Key Features & Capabilities</span>
+        </h2>
+        <ul class="feature-grid">
+          {project.keyFeatures.map((f, i) => (
+            <li class="feature-item">
+              <span class="check-icon">✓</span>
+              <span data-en={f} data-zh={project.keyFeaturesZh[i] || f}>{f}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- Section 4: My Contributions -->
+      <section class="detail-card">
+        <h2 class="section-title">
+          <span class="section-num mono">04</span>
+          <span data-en="My Contributions" data-zh="个人贡献与研发职责">My Contributions</span>
+        </h2>
+        <ul class="list">
+          {project.myContributions.map((c, i) => (
+            <li>
+              <span data-en={c} data-zh={project.myContributionsZh[i] || c}>{c}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- Section 5: Technical Challenges & Solutions -->
+      <section class="detail-card">
+        <h2 class="section-title">
+          <span class="section-num mono">05</span>
+          <span data-en="Technical Challenges & Engineering Solutions" data-zh="技术难点与解决方案">Technical Challenges & Engineering Solutions</span>
+        </h2>
+        <ul class="list">
+          {project.challenges.map((ch, i) => (
+            <li>
+              <span data-en={ch} data-zh={project.challengesZh[i] || ch}>{ch}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- Section 6: Results & Scientific Verification -->
+      <section class="detail-card results-card">
+        <h2 class="section-title">
+          <span class="section-num mono">06</span>
+          <span data-en="Results & Quantitative Verification" data-zh="实验结果与可验证指标">Results & Quantitative Verification</span>
+        </h2>
+        <div class="results-grid">
+          {project.results.map((r, i) => (
+            <div class="result-badge">
+              <span class="result-num mono">#{i + 1}</span>
+              <p>
+                <span data-en={r} data-zh={project.resultsZh[i] || r}>{r}</span>
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Status Disclaimer Footer -->
+      <section class="verification-notice">
+        <p class="mono notice-title">
+          <span data-en="VERIFICATION POLICY" data-zh="真实性与可复现原则">VERIFICATION POLICY</span>
+        </p>
+        <p class="muted">
+          <span
+            data-en="All claims and test numbers on this page are backed by runnable code, automated pytest suites, and reproducible benchmarks. No speculative achievements, fake stars, or unverified hardware tests are claimed."
+            data-zh="本页面所有功能阐述与基准数据均基于真实可运行的开源代码、Pytest 自动化测试矩阵及可复现的基准脚本。严禁捏造任何未经实测的成果或指标。"
+          >
+            All claims and test numbers on this page are backed by runnable code, automated pytest suites, and reproducible benchmarks. No speculative achievements, fake stars, or unverified hardware tests are claimed.
+          </span>
+        </p>
+      </section>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .project-detail-container {
+    padding-block: 40px 80px;
+    max-width: 860px;
+  }
+  .breadcrumb {
+    margin-bottom: 24px;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-2);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.15s;
+  }
+  .back-link:hover {
+    color: var(--accent);
+  }
+  .detail-header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 36px;
+  }
+  .meta-tags {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .category-pill {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 3px 10px;
+    border-radius: 4px;
+    background: var(--bg-hover);
+    color: var(--accent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+  .project-title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+  .project-lead {
+    font-size: 1.125rem;
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+  .actions-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .private-callout {
+    font-size: 0.8125rem;
+    color: var(--text-3);
+    padding: 6px 12px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+  }
+  .tech-stack-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .stack-label {
+    font-size: 0.8125rem;
+    color: var(--text-3);
+  }
+  .detail-body {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .detail-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .section-num {
+    font-size: 0.875rem;
+    color: var(--accent);
+    background: var(--bg-hover);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .callout-box {
+    background: var(--bg-hover);
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+  .callout-text {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text);
+    font-weight: 450;
+  }
+  .architecture-box {
+    background: var(--bg-code, #0d1117);
+    color: #e6edf3;
+    border-radius: var(--radius-sm);
+    padding: 18px 20px;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+  }
+  .architecture-flow {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .feature-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+  }
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+  .check-icon {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .result-badge {
+    background: var(--bg-hover);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .result-num {
+    font-size: 0.75rem;
+    color: var(--accent);
+  }
+  .result-badge p {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+  .verification-notice {
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    background: color-mix(in srgb, var(--bg-card) 60%, transparent);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .notice-title {
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+  .verification-notice p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+</style>

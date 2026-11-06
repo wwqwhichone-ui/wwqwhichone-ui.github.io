@@ -1,78 +1,419 @@
 ---
 import Base from '../layouts/Base.astro';
 import { profile } from '../data/profile';
+import { projects } from '../data/projects';
 import { withBase } from '../lib/url';
 
 const { available, file } = profile.resume;
 const href = withBase(file);
 ---
 
-<Base title="Resume" description="Resume of Weiqi Wang.">
+<Base
+  title="Resume"
+  description="Verified curriculum vitae of Weiqi Wang — Robotics & AI Engineer."
+>
   <section class="page-head">
     <div class="container section-head">
-      <p class="eyebrow">Resume</p>
-      <h1>Resume</h1>
+      <p class="eyebrow" data-en="Curriculum Vitae" data-zh="个人简历">Curriculum Vitae</p>
+      <h1 data-en="Resume & Technical Profile" data-zh="技术履历与背景核验">Resume & Technical Profile</h1>
       {
         available ? (
-          <p class="lead">View in the browser or download the PDF.</p>
+          <p class="lead" data-en="View online or download the verified PDF resume." data-zh="在线查阅或直接下载经核验的 PDF 格式简历。">
+            View online or download the verified PDF resume.
+          </p>
         ) : (
-          <p class="lead">The English resume will be published here soon.</p>
+          <p class="lead" data-en="Web-based verified profile. The formal PDF resume will be downloadable once finalized." data-zh="在线可核验技术履历。正式英文版 PDF 简历在最终校对后开放直接下载。">
+            Web-based verified profile. The formal PDF resume will be downloadable once finalized.
+          </p>
         )
       }
     </div>
   </section>
+
   <section class="section">
-    <div class="container">
-      {
-        available ? (
-          <>
-            <a class="btn btn-primary" href={href} download>
-              Download PDF
-            </a>
-            <object class="viewer" data={href} type="application/pdf" aria-label="Resume PDF">
-              <p>
-                Your browser can't display PDFs inline. <a href={href}>Open the resume</a>.
-              </p>
-            </object>
-          </>
-        ) : (
-          <div class="card placeholder">
-            <p class="mono">resume/Weiqi_Wang_Resume.pdf</p>
-            <p class="muted">
-              Placeholder — no resume content is shown until the real document is added. In the meantime, see{' '}
-              <a href={withBase('about/')}>About</a> and <a href={withBase('projects/')}>Projects</a>.
-            </p>
-            <span class="btn" aria-disabled="true">
-              Download PDF (coming soon)
-            </span>
+    <div class="container resume-layout">
+      <!-- PDF Action Banner -->
+      <div class="card resume-action-banner">
+        <div class="action-info">
+          <span class="mono pdf-tag">FORMAT: PDF</span>
+          <h3 data-en="Official PDF Document" data-zh="正式 PDF 简历文档">Official PDF Document</h3>
+          <p class="muted" data-en="Strict authenticity policy: To avoid circulating unverified drafts, the PDF download is enabled only when the verified file is in place." data-zh="真实性准则：为保障信息准确，仅在经过最终确认的真实文件归档后开放文件下载。">
+            Strict authenticity policy: To avoid circulating unverified drafts, the PDF download is enabled only when
+            the verified file is in place.
+          </p>
+        </div>
+        <div class="action-btn-wrap">
+          {
+            available ? (
+              <a class="btn btn-primary" href={href} download>
+                <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                </svg>
+                <span data-en="Download PDF Resume" data-zh="下载正式 PDF 简历">Download PDF Resume</span>
+              </a>
+            ) : (
+              <div class="coming-soon-btn">
+                <span class="btn" aria-disabled="true">
+                  <span data-en="Download PDF (Under Review)" data-zh="下载 PDF（最终校订中）">Download PDF (Under Review)</span>
+                </span>
+                <span class="mono coming-note" data-en="Target: Weiqi_Wang_Resume.pdf" data-zh="文件目标：Weiqi_Wang_Resume.pdf">Target: Weiqi_Wang_Resume.pdf</span>
+              </div>
+            )
+          }
+        </div>
+      </div>
+
+      <!-- Structured Web Resume -->
+      <div class="card resume-sheet">
+        <!-- Sheet Header -->
+        <header class="sheet-header">
+          <div>
+            <h2 class="sheet-name">{profile.name}</h2>
+            <p class="sheet-role mono" data-en={profile.headline} data-zh={profile.headlineZh}>{profile.headline}</p>
           </div>
-        )
-      }
+          <div class="sheet-contact mono">
+            <span>HKU · Hong Kong SAR</span>
+            <a href={profile.contact[0]?.href} target="_blank" rel="noopener">github.com/{profile.contact[0]?.href.split('/').pop()}</a>
+            <span class="placeholder-tag" data-en="Email: Available upon inquiry" data-zh="电子邮箱：可邮件或私信联系">Email: Available upon inquiry</span>
+          </div>
+        </header>
+
+        <!-- 1. Education -->
+        <section class="resume-section">
+          <h3 class="resume-sec-title">
+            <span class="sec-dot"></span>
+            <span data-en="EDUCATION" data-zh="教育背景">EDUCATION</span>
+          </h3>
+          <div class="resume-items">
+            {
+              profile.education.map((e) => (
+                <div class="resume-item">
+                  <div class="item-head">
+                    <span class="item-bold">{e.school}</span>
+                    <span class="mono item-period">{e.period || ''}</span>
+                  </div>
+                  <div class="item-sub">
+                    <span>{e.degree} in {e.field}</span>
+                  </div>
+                  {e.notes && (
+                    <ul class="resume-bullet-list">
+                      {e.notes.map((n, i) => (
+                        <li>
+                          <span data-en={n} data-zh={e.notesZh ? e.notesZh[i] || n : n}>
+                            {n}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        <!-- 2. Technical Projects -->
+        <section class="resume-section">
+          <h3 class="resume-sec-title">
+            <span class="sec-dot"></span>
+            <span data-en="KEY ENGINEERING PROJECTS" data-zh="主要工程项目">KEY ENGINEERING PROJECTS</span>
+          </h3>
+          <div class="resume-items">
+            {
+              projects.filter(p => p.featured).map((p) => (
+                <div class="resume-item">
+                  <div class="item-head">
+                    <span class="item-bold">
+                      <span data-en={p.title} data-zh={p.titleZh}>{p.title}</span>
+                    </span>
+                    <span class="mono item-period">[{p.status}]</span>
+                  </div>
+                  <div class="item-sub mono stack-text">
+                    {p.stack.join(' · ')}
+                  </div>
+                  <ul class="resume-bullet-list">
+                    {p.highlights.map((h, i) => (
+                      <li>
+                        <span data-en={h} data-zh={p.highlightsZh[i] || h}>
+                          {h}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        <!-- 3. Skills Matrix -->
+        <section class="resume-section">
+          <h3 class="resume-sec-title">
+            <span class="sec-dot"></span>
+            <span data-en="TECHNICAL SKILLS" data-zh="专业技能">TECHNICAL SKILLS</span>
+          </h3>
+          <div class="skills-resume-grid">
+            {
+              profile.skillsMatrix.map((cat) => (
+                <div class="skill-resume-row">
+                  <span class="skill-cat-title mono">
+                    <span data-en={cat.title} data-zh={cat.titleZh}>{cat.title}</span>:
+                  </span>
+                  <span class="skill-cat-items">
+                    {cat.items.map(it => it.name).join(', ')}
+                  </span>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        <!-- 4. Experience & Internships (Honest Placeholder) -->
+        <section class="resume-section">
+          <div class="resume-sec-header">
+            <h3 class="resume-sec-title">
+              <span class="sec-dot"></span>
+              <span data-en="WORK & INTERNSHIP EXPERIENCE" data-zh="实习与工作经历">WORK & INTERNSHIP EXPERIENCE</span>
+            </h3>
+            <span class="needs-input-badge">Needs User Input</span>
+          </div>
+          <div class="resume-callout-box">
+            <p class="muted" data-en="Candidate is currently dedicated full-time to MSc studies & dissertation research at HKU. Prior commercial internships or corporate engineering roles are subject to official documentation and will be added here upon confirmation in src/data/profile.ts." data-zh="目前全日制专注于香港大学硕士研究生学业与毕业课题攻关。企业实习与商用工程经历严格遵循求实原则，在经用户在 src/data/profile.ts 中核实确认后在此更新展示。">
+              Candidate is currently dedicated full-time to MSc studies & dissertation research at HKU. Prior commercial internships or corporate engineering roles are subject to official documentation and will be added here upon confirmation in src/data/profile.ts.
+            </p>
+          </div>
+        </section>
+
+        <!-- 5. Awards & Honors (Honest Placeholder) -->
+        <section class="resume-section">
+          <div class="resume-sec-header">
+            <h3 class="resume-sec-title">
+              <span class="sec-dot"></span>
+              <span data-en="AWARDS & HONORS" data-zh="荣誉与竞赛奖项">AWARDS & HONORS</span>
+            </h3>
+            <span class="needs-input-badge">Needs User Input</span>
+          </div>
+          <div class="resume-callout-box">
+            <p class="muted" data-en="Academic standing and university honors are verifiable via official HKU and NWPU transcripts upon employer request. Specific competitive awards can be configured in src/data/profile.ts." data-zh="在校学术评定与高校荣誉以香港大学及西北工业大学官方正式成绩单为准，可根据招聘方需要提供验证。具体竞赛奖项可在 src/data/profile.ts 中配置上线。">
+              Academic standing and university honors are verifiable via official HKU and NWPU transcripts upon employer request. Specific competitive awards can be configured in src/data/profile.ts.
+            </p>
+          </div>
+        </section>
+      </div>
     </div>
   </section>
 </Base>
 
 <style>
   .page-head {
-    padding-block: clamp(56px, 10vw, 104px) 8px;
+    padding-block: clamp(56px, 10vw, 96px) 16px;
   }
   .page-head h1 {
     font-size: clamp(2rem, 5vw, 3rem);
   }
-  .viewer {
-    display: block;
-    width: 100%;
-    height: min(80vh, 1100px);
-    margin-top: 20px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-  }
-  .placeholder {
+  .resume-layout {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    align-items: flex-start;
+    gap: 32px;
+    max-width: 860px;
+  }
+  .resume-action-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 24px 28px;
     border-style: dashed;
-    max-width: 640px;
+    background: color-mix(in srgb, var(--bg-card) 70%, transparent);
+  }
+  .action-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .pdf-tag {
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+  .action-info h3 {
+    margin: 0;
+    font-size: 1.125rem;
+  }
+  .action-info p {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+  .coming-soon-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .coming-note {
+    font-size: 0.75rem;
+    color: var(--text-3);
+  }
+  .resume-sheet {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    box-shadow: 0 16px 40px -20px rgba(0, 0, 0, 0.15);
+  }
+  .sheet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .sheet-name {
+    font-size: 2rem;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.02em;
+  }
+  .sheet-role {
+    font-size: 0.9375rem;
+    color: var(--accent);
+    margin: 0;
+  }
+  .sheet-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.8125rem;
+    color: var(--text-2);
+    align-items: flex-end;
+  }
+  .sheet-contact a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .sheet-contact a:hover {
+    color: var(--accent);
+  }
+  .placeholder-tag {
+    color: var(--text-3);
+  }
+  .resume-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .resume-sec-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+  }
+  .resume-sec-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    font-family: monospace;
+    margin: 0;
+  }
+  .sec-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .resume-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .resume-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .item-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .item-bold {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text);
+  }
+  .item-period {
+    font-size: 0.8125rem;
+    color: var(--text-3);
+  }
+  .item-sub {
+    font-size: 0.9375rem;
+    color: var(--text-2);
+  }
+  .stack-text {
+    font-size: 0.8125rem;
+    color: var(--accent);
+  }
+  .resume-bullet-list {
+    margin: 6px 0 0 18px;
+    padding: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-2);
+  }
+  .skills-resume-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .skill-resume-row {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  .skill-cat-title {
+    font-weight: 600;
+    color: var(--text);
+    margin-right: 6px;
+  }
+  .skill-cat-items {
+    color: var(--text-2);
+  }
+  .resume-callout-box {
+    background: var(--bg-hover);
+    border-left: 2px solid var(--border-strong);
+    padding: 12px 16px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+  .resume-callout-box p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  @media (max-width: 640px) {
+    .resume-action-banner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .coming-soon-btn {
+      align-items: flex-start;
+    }
+    .sheet-header {
+      flex-direction: column;
+    }
+    .sheet-contact {
+      align-items: flex-start;
+    }
+    .resume-sheet {
+      padding: 24px;
+    }
   }
 </style>

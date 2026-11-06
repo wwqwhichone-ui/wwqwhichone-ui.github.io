@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import tailwindcss from '@tailwindcss/vite';
 
 // SITE_URL / BASE_PATH are injected by the GitHub Pages workflow (actions/configure-pages).
 // Local defaults keep `npm run dev` working without any environment variables.
@@ -12,5 +13,8 @@ export default defineConfig({
   base,
   trailingSlash: 'ignore',
   integrations: [sitemap()],
+  vite: {
+    plugins: [tailwindcss()],
+  },
   build: { inlineStylesheets: 'auto' },
 });

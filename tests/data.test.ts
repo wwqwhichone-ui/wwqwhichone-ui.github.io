@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { profile } from '../src/data/profile';
-import { projects } from '../src/data/projects';
+import { projects, type ProjectCategory } from '../src/data/projects';
 import { isActive, withBase } from '../src/lib/url';
 
 describe('projects data', () => {
@@ -25,6 +25,32 @@ describe('projects data', () => {
   it('features at least one project', () => {
     expect(projects.some((p) => p.featured)).toBe(true);
   });
+
+  it('provides bilingual title and overview for every project', () => {
+    for (const p of projects) {
+      expect(p.title.length).toBeGreaterThan(0);
+      expect(p.titleZh.length).toBeGreaterThan(0);
+      expect(p.overview.length).toBeGreaterThan(0);
+      expect(p.overviewZh.length).toBeGreaterThan(0);
+      expect(p.problemStatement.length).toBeGreaterThan(0);
+      expect(p.architecture.length).toBeGreaterThan(0);
+      expect(p.stack.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('assigns valid categories to all projects', () => {
+    const validCategories: ProjectCategory[] = [
+      'Robotics',
+      'Artificial Intelligence',
+      'LLM & AI Agent',
+      'Software Engineering',
+      'Automation',
+      'Academic Projects',
+    ];
+    for (const p of projects) {
+      expect(validCategories).toContain(p.category);
+    }
+  });
 });
 
 describe('demo links', () => {
@@ -46,6 +72,36 @@ describe('profile data', () => {
 
   it('keeps the resume placeholder until a real file is added', () => {
     expect(typeof profile.resume.available).toBe('boolean');
+  });
+
+  it('contains honest skills categorized with using or learning levels', () => {
+    expect(profile.skillsMatrix.length).toBeGreaterThan(0);
+    const validSlugs = new Set(projects.map((p) => p.slug));
+
+    for (const cat of profile.skillsMatrix) {
+      expect(cat.title.length).toBeGreaterThan(0);
+      expect(cat.titleZh.length).toBeGreaterThan(0);
+      for (const it of cat.items) {
+        expect(['using', 'learning']).toContain(it.level);
+        expect(it.name.length).toBeGreaterThan(0);
+        if (it.projectSlug) {
+          expect(validSlugs.has(it.projectSlug)).toBe(true);
+        }
+      }
+    }
+  });
+
+  it('verifies every project has comprehensive technical details', () => {
+    for (const p of projects) {
+      expect(p.myContributions.length).toBeGreaterThan(0);
+      expect(p.myContributionsZh.length).toBeGreaterThan(0);
+      expect(p.challenges.length).toBeGreaterThan(0);
+      expect(p.challengesZh.length).toBeGreaterThan(0);
+      expect(p.results.length).toBeGreaterThan(0);
+      expect(p.resultsZh.length).toBeGreaterThan(0);
+      expect(p.keyFeatures.length).toBeGreaterThan(0);
+      expect(p.keyFeaturesZh.length).toBeGreaterThan(0);
+    }
   });
 });
 

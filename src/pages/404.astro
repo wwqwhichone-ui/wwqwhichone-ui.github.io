@@ -3,21 +3,61 @@ import Base from '../layouts/Base.astro';
 import { withBase } from '../lib/url';
 ---
 
-<Base title="Not found">
+<Base title="404 — Coordinate Out of Bounds">
   <section class="container nf">
-    <p class="eyebrow">404</p>
-    <h1>Page not found</h1>
-    <p class="lead">The page you're looking for doesn't exist.</p>
-    <a class="btn btn-primary" href={withBase('')}>Back home</a>
+    <div class="nf-card card">
+      <span class="mono err-code">ERR_IK_UNREACHABLE_404</span>
+      <h1 data-en="Target Coordinate Out of Bounds" data-zh="目标位姿超出工作空间 (404)">Target Coordinate Out of Bounds</h1>
+      <p class="lead" data-en="The requested path or endpoint does not exist within the workspace envelope." data-zh="所请求的路径或资源端点在当前工作空间内不可达。">
+        The requested path or endpoint does not exist within the workspace envelope.
+      </p>
+      <div class="nf-actions">
+        <a class="btn btn-primary" href={withBase('')}>
+          <span data-en="Return to Home Frame" data-zh="返回基坐标原点 (首页)">Return to Home Frame</span>
+        </a>
+        <a class="btn" href={withBase('projects/')}>
+          <span data-en="Explore Projects" data-zh="查阅项目库">Explore Projects</span>
+        </a>
+      </div>
+    </div>
   </section>
 </Base>
 
 <style>
   .nf {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-block: clamp(80px, 14vw, 140px);
+  }
+  .nf-card {
+    display: flex;
     flex-direction: column;
     gap: 16px;
     align-items: flex-start;
-    padding-block: 120px;
+    max-width: 580px;
+    padding: 40px;
+    border-left: 4px solid var(--accent);
+  }
+  .err-code {
+    font-size: 0.8125rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+  .nf-card h1 {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    margin: 0;
+  }
+  .nf-card p {
+    margin: 0;
+    color: var(--text-2);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  .nf-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    flex-wrap: wrap;
   }
 </style>

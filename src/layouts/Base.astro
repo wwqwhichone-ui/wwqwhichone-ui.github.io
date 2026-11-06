@@ -8,26 +8,39 @@ import { withBase } from '../lib/url';
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
 }
 
-const { title, description = profile.tagline } = Astro.props;
+const { title, description = profile.tagline, image } = Astro.props;
 const fullTitle = title ? `${title} — ${profile.name}` : `${profile.name} | ${profile.headline}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL(withBase('og.png'), Astro.site);
+const ogImage = image ? new URL(image, Astro.site) : new URL(withBase('og.png'), Astro.site);
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: profile.name,
-  jobTitle: 'MSc Student, Robotics & Intelligent Systems',
-  alumniOf: profile.education.map((e) => ({ '@type': 'CollegeOrUniversity', name: e.school })),
-  knowsAbout: profile.focus.map((f) => f.title),
+  alternateName: '王伟奇',
+  jobTitle: 'Robotics & AI Engineer | MSc Student',
+  alumniOf: profile.education.map((e) => ({
+    '@type': 'CollegeOrUniversity',
+    name: e.school,
+  })),
+  knowsAbout: [
+    'Robotics & Intelligent Systems',
+    'Serial Manipulator Kinematics',
+    'Mobile Robot Path Planning',
+    'Large Language Models (LLMs)',
+    'AI Agents & Structured Outputs',
+    'Human-Robot Interaction',
+  ],
   url: Astro.site?.toString(),
-  sameAs: profile.contact.map((c) => c.href),
+  sameAs: profile.contact.filter((c) => !('isPlaceholder' in c && c.isPlaceholder)).map((c) => c.href),
 };
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -40,6 +53,7 @@ const jsonLd = {
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0a0b0e" media="(prefers-color-scheme: dark)" />
 
+    <!-- Open Graph & Social -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -49,14 +63,23 @@ const jsonLd = {
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={`${profile.name} — ${profile.headline}`} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
+    <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-    <!-- Apply saved theme before first paint to avoid a flash. -->
+    <!-- Apply saved theme & language before first paint to prevent flash -->
     <script is:inline>
       try {
         const t = localStorage.getItem('theme');
         if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+        const l = localStorage.getItem('lang');
+        if (l === 'zh' || l === 'en') {
+          document.documentElement.dataset.lang = l;
+          document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+        }
       } catch (_) {}
     </script>
   </head>

@@ -1,0 +1,242 @@
+---
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<div class="arch-diagram-wrapper">
+  {
+    slug === 'llm-robot-task-planner' && (
+      <svg viewBox="0 0 760 260" width="100%" height="auto" class="arch-svg" fill="none" role="img" aria-label="LLM Task Planner Architecture Diagram">
+        <!-- Background Grid -->
+        <defs>
+          <linearGradient id="layer-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.15" />
+            <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.05" />
+          </linearGradient>
+          <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 8 5 L 0 9 z" fill="var(--accent)" />
+          </marker>
+        </defs>
+
+        <!-- Block 1: Input -->
+        <rect x="20" y="90" width="130" height="80" rx="8" fill="var(--bg-card)" stroke="var(--border-strong)" stroke-width="1.5" />
+        <text x="85" y="122" font-family="monospace" font-size="11" font-weight="600" fill="var(--accent)" text-anchor="middle">INPUT</text>
+        <text x="85" y="142" font-size="11" fill="var(--text)" text-anchor="middle">Natural Speech</text>
+        <text x="85" y="156" font-size="10" fill="var(--text-3)" text-anchor="middle">or Text Prompt</text>
+
+        <!-- Arrow 1 -> 2 -->
+        <line x1="150" y1="130" x2="195" y2="130" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow)" />
+
+        <!-- Block 2: LLM Planner -->
+        <rect x="200" y="90" width="130" height="80" rx="8" fill="var(--bg-card)" stroke="var(--border-strong)" stroke-width="1.5" />
+        <text x="265" y="120" font-family="monospace" font-size="11" font-weight="600" fill="var(--accent)" text-anchor="middle">PLANNER</text>
+        <text x="265" y="138" font-size="11" fill="var(--text)" text-anchor="middle">Claude / Rules</text>
+        <text x="265" y="154" font-size="9" font-family="monospace" fill="var(--warn)" text-anchor="middle">Untrusted JSON</text>
+
+        <!-- Arrow 2 -> 3 -->
+        <line x1="330" y1="130" x2="375" y2="130" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow)" />
+
+        <!-- Air-Gap Safety Container -->
+        <rect x="380" y="20" width="210" height="220" rx="12" fill="url(#layer-grad)" stroke="var(--accent)" stroke-width="1.8" stroke-dasharray="4 4" />
+        <text x="485" y="44" font-family="monospace" font-size="11" font-weight="700" fill="var(--accent)" text-anchor="middle">3-LAYER AIR-GAP</text>
+
+        <!-- Layer 1 -->
+        <rect x="395" y="58" width="180" height="46" rx="6" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.2" />
+        <text x="485" y="78" font-size="10" font-weight="600" fill="var(--text)" text-anchor="middle">1. JSON Schema (Draft 2020-12)</text>
+        <text x="485" y="94" font-size="9" fill="var(--text-3)" text-anchor="middle">Action whitelist &amp; type limits</text>
+
+        <!-- Layer 2 -->
+        <rect x="395" y="112" width="180" height="46" rx="6" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.2" />
+        <text x="485" y="132" font-size="10" font-weight="600" fill="var(--text)" text-anchor="middle">2. Spatial World Grounding</text>
+        <text x="485" y="148" font-size="9" fill="var(--text-3)" text-anchor="middle">Object &amp; coordinate validity</text>
+
+        <!-- Layer 3 -->
+        <rect x="395" y="166" width="180" height="46" rx="6" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.2" />
+        <text x="485" y="186" font-size="10" font-weight="600" fill="var(--text)" text-anchor="middle">3. Precondition Dry-Run</text>
+        <text x="485" y="202" font-size="9" fill="var(--text-3)" text-anchor="middle">Gripper &amp; state interlocks</text>
+
+        <!-- Arrow 3 -> 4 -->
+        <line x1="590" y1="130" x2="625" y2="130" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow)" />
+
+        <!-- Block 4: Execution -->
+        <rect x="630" y="90" width="115" height="80" rx="8" fill="var(--bg-card)" stroke="var(--ok)" stroke-width="1.8" />
+        <text x="687" y="122" font-family="monospace" font-size="11" font-weight="600" fill="var(--ok)" text-anchor="middle">SAFE EXECUTION</text>
+        <text x="687" y="142" font-size="11" fill="var(--text)" text-anchor="middle">MockRobotExecutor</text>
+        <text x="687" y="156" font-size="9" font-family="monospace" fill="var(--text-3)" text-anchor="middle">Verified Trace</text>
+      </svg>
+    )
+  }
+
+  {
+    slug === 'robot-arm-kinematics' && (
+      <svg viewBox="0 0 760 220" width="100%" height="auto" class="arch-svg" fill="none" role="img" aria-label="Robot Arm Kinematics Pipeline Diagram">
+        <defs>
+          <marker id="arrow2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 8 5 L 0 9 z" fill="var(--accent)" />
+          </marker>
+        </defs>
+
+        <!-- Step 1: DH -->
+        <rect x="15" y="65" width="130" height="90" rx="8" fill="var(--bg-card)" stroke="var(--border-strong)" stroke-width="1.5" />
+        <text x="80" y="95" font-family="monospace" font-size="11" font-weight="600" fill="var(--accent)" text-anchor="middle">01. TRANSFORMS</text>
+        <text x="80" y="116" font-size="11" fill="var(--text)" text-anchor="middle">Standard DH Frames</text>
+        <text x="80" y="132" font-size="9" font-family="monospace" fill="var(--text-3)" text-anchor="middle">UR5 (Official Params)</text>
+
+        <line x1="145" y1="110" x2="175" y2="110" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow2)" />
+
+        <!-- Step 2: FK & Jacobian -->
+        <rect x="180" y="65" width="135" height="90" rx="8" fill="var(--bg-card)" stroke="var(--border-strong)" stroke-width="1.5" />
+        <text x="247" y="95" font-family="monospace" font-size="11" font-weight="600" fill="var(--accent)" text-anchor="middle">02. JACOBIAN</text>
+        <text x="247" y="116" font-size="11" fill="var(--text)" text-anchor="middle">Geometric J(q)</text>
+        <text x="247" y="132" font-size="9" font-family="monospace" fill="var(--text-3)" text-anchor="middle">Yoshikawa Index w</text>
+
+        <line x1="315" y1="110" x2="345" y2="110" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow2)" />
+
+        <!-- Step 3: DLS IK Solver -->
+        <rect x="350" y="50" width="160" height="120" rx="10" fill="var(--bg-card)" stroke="var(--accent)" stroke-width="1.8" />
+        <text x="430" y="80" font-family="monospace" font-size="11" font-weight="700" fill="var(--accent)" text-anchor="middle">03. NUMERICAL IK</text>
+        <text x="430" y="102" font-size="11" fill="var(--text)" text-anchor="middle">Damped Least Squares</text>
+        <text x="430" y="122" font-size="9" font-family="monospace" fill="var(--text-2)" text-anchor="middle">Δq = (JᵀJ + λ²I)⁻¹ Jᵀ e</text>
+        <text x="430" y="142" font-size="9" fill="var(--ok)" text-anchor="middle">✓ Random Restarts</text>
+
+        <line x1="510" y1="110" x2="540" y2="110" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow2)" />
+
+        <!-- Step 4: Trajectory -->
+        <rect x="545" y="65" width="135" height="90" rx="8" fill="var(--bg-card)" stroke="var(--border-strong)" stroke-width="1.5" />
+        <text x="612" y="95" font-family="monospace" font-size="11" font-weight="600" fill="var(--accent)" text-anchor="middle">04. TRAJECTORY</text>
+        <text x="612" y="116" font-size="11" fill="var(--text)" text-anchor="middle">Quintic Polynomials</text>
+        <text x="612" y="132" font-size="9" font-family="monospace" fill="var(--text-3)" text-anchor="middle">Zero Boundary Accel</text>
+      </svg>
+    )
+  }
+
+  {
+    slug === 'mobile-robot-path-planning' && (
+      <svg viewBox="0 0 760 220" width="100%" height="auto" class="arch-svg" fill="none" role="img" aria-label="Mobile Robot Path Planning Pipeline">
+        <defs>
+          <marker id="arrow3" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 8 5 L 0 9 z" fill="var(--accent)" />
+          </marker>
+        </defs>
+
+        <!-- 1. Map & Inflation -->
+        <rect x="20" y="65" width="135" height="90" rx="8" fill="var(--bg-card)" stroke="var(--border-strong)" stroke-width="1.5" />
+        <text x="87" y="95" font-family="monospace" font-size="11" font-weight="600" fill="var(--accent)" text-anchor="middle">01. GRID &amp; INFLATION</text>
+        <text x="87" y="116" font-size="11" fill="var(--text)" text-anchor="middle">2D Occupancy Map</text>
+        <text x="87" y="132" font-size="9" fill="var(--text-3)" text-anchor="middle">Disk inflation (Robot R)</text>
+
+        <line x1="155" y1="110" x2="190" y2="110" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow3)" />
+
+        <!-- 2. Dual Planner -->
+        <rect x="195" y="45" width="180" height="130" rx="10" fill="var(--bg-card)" stroke="var(--accent)" stroke-width="1.8" />
+        <text x="285" y="75" font-family="monospace" font-size="11" font-weight="700" fill="var(--accent)" text-anchor="middle">02. DUAL PLANNERS</text>
+        <text x="285" y="100" font-size="11" font-weight="600" fill="var(--text)" text-anchor="middle">A* (Octile Heuristic)</text>
+        <text x="285" y="116" font-size="9" fill="var(--text-3)" text-anchor="middle">Optimal on grid, no corner cut</text>
+        <text x="285" y="138" font-size="11" font-weight="600" fill="var(--text)" text-anchor="middle">RRT* (Sampling)</text>
+        <text x="285" y="154" font-size="9" fill="var(--text-3)" text-anchor="middle">Subtree cost rewiring</text>
+
+        <line x1="375" y1="110" x2="410" y2="110" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow3)" />
+
+        <!-- 3. Shortcutting -->
+        <rect x="415" y="65" width="145" height="90" rx="8" fill="var(--bg-card)" stroke="var(--border-strong)" stroke-width="1.5" />
+        <text x="487" y="95" font-family="monospace" font-size="11" font-weight="600" fill="var(--accent)" text-anchor="middle">03. SMOOTHING</text>
+        <text x="487" y="116" font-size="11" fill="var(--text)" text-anchor="middle">Line-of-Sight Shortcut</text>
+        <text x="487" y="132" font-size="9" font-family="monospace" fill="var(--text-3)" text-anchor="middle">&gt; 60% waypoint cut</text>
+
+        <line x1="560" y1="110" x2="595" y2="110" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow3)" />
+
+        <!-- 4. Benchmarking & Canvas -->
+        <rect x="600" y="65" width="140" height="90" rx="8" fill="var(--bg-card)" stroke="var(--ok)" stroke-width="1.8" />
+        <text x="670" y="95" font-family="monospace" font-size="11" font-weight="600" fill="var(--ok)" text-anchor="middle">04. BENCHMARK</text>
+        <text x="670" y="116" font-size="11" fill="var(--text)" text-anchor="middle">Warehouse Metrics</text>
+        <text x="670" y="132" font-size="9" fill="var(--text-3)" text-anchor="middle">Interactive Canvas</text>
+      </svg>
+    )
+  }
+
+  {
+    slug === 'voice-controlled-mobile-manipulator' && (
+      <svg viewBox="0 0 760 220" width="100%" height="auto" class="arch-svg" fill="none" role="img" aria-label="MSc Dissertation Pipeline Diagram">
+        <defs>
+          <marker id="arrow4" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 8 5 L 0 9 z" fill="var(--accent)" />
+          </marker>
+        </defs>
+
+        <!-- 1. Voice -->
+        <rect x="20" y="65" width="125" height="90" rx="8" fill="var(--bg-card)" stroke="var(--border-strong)" stroke-width="1.5" />
+        <text x="82" y="95" font-family="monospace" font-size="11" font-weight="600" fill="var(--accent)" text-anchor="middle">01. SPEECH ASR</text>
+        <text x="82" y="116" font-size="11" fill="var(--text)" text-anchor="middle">Acoustic Model</text>
+        <text x="82" y="132" font-size="9" fill="var(--text-3)" text-anchor="middle">Confidence Score &gt; θ</text>
+
+        <line x1="145" y1="110" x2="175" y2="110" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow4)" />
+
+        <!-- 2. Confirmation Loop -->
+        <rect x="180" y="65" width="135" height="90" rx="8" fill="var(--bg-card)" stroke="var(--border-strong)" stroke-width="1.5" />
+        <text x="247" y="95" font-family="monospace" font-size="11" font-weight="600" fill="var(--accent)" text-anchor="middle">02. CLARIFICATION</text>
+        <text x="247" y="116" font-size="11" fill="var(--text)" text-anchor="middle">Human Confirmation</text>
+        <text x="247" y="132" font-size="9" fill="var(--warn)" text-anchor="middle">Ambiguity Disambiguation</text>
+
+        <line x1="315" y1="110" x2="345" y2="110" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow4)" />
+
+        <!-- 3. LLM Decomposition -->
+        <rect x="350" y="65" width="135" height="90" rx="8" fill="var(--bg-card)" stroke="var(--border-strong)" stroke-width="1.5" />
+        <text x="417" y="95" font-family="monospace" font-size="11" font-weight="600" fill="var(--accent)" text-anchor="middle">03. LLM PLANNER</text>
+        <text x="417" y="116" font-size="11" fill="var(--text)" text-anchor="middle">Task Decomposition</text>
+        <text x="417" y="132" font-size="9" fill="var(--text-3)" text-anchor="middle">Navigation + Pick/Place</text>
+
+        <line x1="485" y1="110" x2="515" y2="110" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow4)" />
+
+        <!-- 4. Feasibility Air-Gap & Execution -->
+        <rect x="520" y="50" width="155" height="120" rx="10" fill="var(--bg-card)" stroke="var(--ok)" stroke-width="1.8" />
+        <text x="597" y="80" font-family="monospace" font-size="11" font-weight="700" fill="var(--ok)" text-anchor="middle">04. HARDWARE AIR-GAP</text>
+        <text x="597" y="102" font-size="11" fill="var(--text)" text-anchor="middle">Kinematic Reachability</text>
+        <text x="597" y="122" font-size="9" font-family="monospace" fill="var(--text-2)" text-anchor="middle">Collision Checking</text>
+        <text x="597" y="142" font-size="9" fill="var(--text-3)" text-anchor="middle">Mobile Base + Arm ROS 2</text>
+      </svg>
+    )
+  }
+
+  {
+    !['llm-robot-task-planner', 'robot-arm-kinematics', 'mobile-robot-path-planning', 'voice-controlled-mobile-manipulator'].includes(slug) && (
+      <div class="generic-arch-box">
+        <span class="mono generic-tag">MODULAR ARCHITECTURE</span>
+        <p class="muted">Structured pipeline engineered with strict input contracts, modular unit separation, and automated regression testing.</p>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .arch-diagram-wrapper {
+    background: var(--bg-hover);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+  }
+  .arch-svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  .generic-arch-box {
+    padding: 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+  .generic-tag {
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+</style>
