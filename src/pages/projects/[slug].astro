@@ -187,6 +187,21 @@ const demoHref = project.demo && (external ? project.demo : withBase(project.dem
         </div>
       </section>
 
+      <!-- Section 7: Limitations & Scope -->
+      <section class="detail-card">
+        <h2 class="section-title">
+          <span class="section-num mono">07</span>
+          <span data-en="Known Limitations & Scope" data-zh="已知局限与适用边界">Known Limitations & Scope</span>
+        </h2>
+        <ul class="list">
+          {project.limitations.map((l, i) => (
+            <li>
+              <span data-en={l} data-zh={project.limitationsZh[i] || l}>{l}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <!-- Status Disclaimer Footer -->
       <section class="verification-notice">
         <p class="mono notice-title">
