@@ -20,6 +20,10 @@ const counts = {
   'Software Engineering': projects.filter((p) => p.category === 'Software Engineering').length,
   'Academic Projects': projects.filter((p) => p.category === 'Academic Projects').length,
 };
+
+const visibleCategories = categories.filter(
+  (cat) => cat.id === 'all' || (counts[cat.id as keyof typeof counts] || 0) > 0
+);
 ---
 
 <Base
@@ -60,7 +64,7 @@ const counts = {
 
         <div class="category-tabs" role="tablist" aria-label="Project categories">
           {
-            categories.map((cat, i) => (
+            visibleCategories.map((cat, i) => (
               <button
                 type="button"
                 role="tab"
