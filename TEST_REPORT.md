@@ -14,8 +14,8 @@
 | **Astro & TypeScript Diagnostics** | All `.astro`, `.ts` files | 30 files | 30 | 0 |
 | **Data Integrity & Authenticity** | `tests/data.test.ts` | 13 | 13 | 0 |
 | **Path Planning Algorithm Suite** | `tests/planner.test.ts` | 10 | 10 | 0 |
-| **i18n Language Persistence** | `tests/lang.test.ts` | 5 | 5 | 0 |
-| **Content Evidence Verification** | `tests/content.test.ts` | 5 | 5 | 0 |
+| **i18n Language Persistence** | `tests/lang.test.ts` | 4 | 4 | 0 |
+| **Content Evidence Verification** | `tests/content.test.ts` | 6 | 6 | 0 |
 | **Static Production Build** | `astro build` | 15 routes | 15 | 0 |
 | **Total** | | **33 tests + 15 routes** | **33** | **0** |
 
@@ -53,7 +53,6 @@
 ### Suite C: i18n Language Persistence (`tests/lang.test.ts`)
 * `resolveLang`: Normalises stored or attribute values to a supported language.
 * `applyLanguage`: Swaps text of leaf elements, updates input placeholders, and preserves elements with children.
-* `child node preservation`: Updates direct text nodes when elements contain icon children (e.g. status badge).
 * `preference persistence`: Re-applies saved language choice across page navigation and reloads.
 
 ### Suite D: Content Evidence Verification (`tests/content.test.ts`)
@@ -62,6 +61,7 @@
 * `unverifiable claims`: Prevents absolute marketing claims in page sources.
 * `contact verification`: Asserts only valid, public contact links are rendered.
 * `name verification`: Verifies candidate Chinese name matches confirmed identity.
+* `metric verification`: Dynamically asserts homepage Vitest counter matches total test cases across test files.
 
 ---
 

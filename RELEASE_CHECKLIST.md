@@ -14,7 +14,7 @@ Use this checklist before and during public deployment to verify that all person
 - [x] **Unit Testing Suite**: `npm test` passes all tests across `data.test.ts`, `planner.test.ts`, `lang.test.ts`, and `content.test.ts`.
 - [x] **Static Production Build**: `npm run build` generates 15 static routes without errors.
 - [x] **Secret Scanning**: No private tokens, API keys, or credentials in source code.
-- [x] **Content Verification**: All numerical metrics match source repository READMEs.
+- [x] **Content Verification**: Every number in project results is registered with a source in tests/content.test.ts.
 
 ---
 
