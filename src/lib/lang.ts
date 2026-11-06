@@ -9,7 +9,6 @@ interface TranslatableElement {
   getAttribute(name: string): string | null;
   dataset: { i18nTarget?: string };
   children: { length: number };
-  childNodes?: ArrayLike<{ nodeType: number; textContent: string | null }>;
   textContent: string | null;
   placeholder?: string;
 }
@@ -35,14 +34,6 @@ export function applyLanguage(doc: LangDocument, lang: Lang): void {
       el.placeholder = text;
     } else if (el.children.length === 0) {
       el.textContent = text;
-    } else if ('childNodes' in el && el.childNodes) {
-      // If element has child elements but also direct text node(s) (e.g. badge with dot icon)
-      for (const node of Array.from(el.childNodes as any) as Array<{ nodeType: number; textContent: string | null }>) {
-        if (node.nodeType === 3 && node.textContent && node.textContent.trim().length > 0) {
-          node.textContent = text;
-          break;
-        }
-      }
     }
   }
 }

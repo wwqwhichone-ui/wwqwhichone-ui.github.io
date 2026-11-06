@@ -47,20 +47,6 @@ describe('applyLanguage', () => {
     expect(wrapper.textContent).toBe('Wrapper');
   });
 
-  it('updates direct text node when element has child elements such as an icon', () => {
-    const dot = { nodeType: 1, textContent: '' };
-    const textNode = { nodeType: 3, textContent: 'Proof of concept' };
-    const badge: any = {
-      getAttribute: (n: string) => (n === 'data-zh' ? '概念验证' : 'Proof of concept'),
-      dataset: {},
-      children: { length: 1 },
-      childNodes: [dot, textNode],
-      textContent: 'Proof of concept',
-    };
-    applyLanguage(fakeDoc([badge]), 'zh');
-    expect(textNode.textContent).toBe('概念验证');
-  });
-
   it('regression: a saved zh preference is re-applied on a fresh page load', () => {
     // The head script sets data-lang="zh" before paint; the component must then
     // translate the text, otherwise the page shows English with a "中" button.
