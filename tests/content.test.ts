@@ -23,6 +23,7 @@ const EVIDENCE: Record<string, string> = {
   '1045': 'mobile-robot-path-planning README, warehouse table, Dijkstra expanded',
   '15': 'portfolio: astro build reports 15 pages / warehouse map 15 m wide',
   '9 m': 'mobile-robot-path-planning README, warehouse 15.0 × 9.0 m',
+  '33': 'portfolio: vitest reports 33 tests passed across 4 suites',
 };
 
 const NUMBER = /\d+(?:\.\d+)?\s?(?:%|ms|m\b|毫秒)?/g;
