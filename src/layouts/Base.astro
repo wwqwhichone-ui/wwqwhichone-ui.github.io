@@ -21,7 +21,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: profile.name,
-  alternateName: '王威淇',
+  alternateName: ['王威淇', `${profile.preferredName} Wang`],
   jobTitle: 'Robotics & AI Engineer | MSc Student',
   alumniOf: profile.education.map((e) => ({
     '@type': 'CollegeOrUniversity',

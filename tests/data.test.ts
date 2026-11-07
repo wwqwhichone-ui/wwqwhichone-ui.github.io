@@ -64,9 +64,10 @@ describe('demo links', () => {
 });
 
 describe('profile data', () => {
-  it('does not publish an email address or phone number', () => {
+  it('publishes only the owner-confirmed email and no phone number', () => {
     const text = JSON.stringify(profile);
-    expect(text).not.toMatch(/[\w.+-]+@[\w-]+\.[\w.]+/);
+    const emails = text.match(/[\w.+-]+@[\w-]+\.[\w.]+/g) ?? [];
+    expect(new Set(emails)).toEqual(new Set(['wwqwhichone@gmail.com']));
     expect(text).not.toMatch(/\+?\d[\d\s-]{8,}\d/);
   });
 

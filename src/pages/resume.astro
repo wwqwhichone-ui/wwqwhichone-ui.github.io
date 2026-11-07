@@ -69,13 +69,13 @@ const href = withBase(file);
         <!-- Sheet Header -->
         <header class="sheet-header">
           <div>
-            <h2 class="sheet-name">{profile.name}</h2>
+            <h2 class="sheet-name">Weiqi ({profile.preferredName}) Wang</h2>
             <p class="sheet-role mono" data-en={profile.headline} data-zh={profile.headlineZh}>{profile.headline}</p>
           </div>
           <div class="sheet-contact mono">
             <span>HKU · Hong Kong SAR</span>
             <a href={profile.contact[0]?.href} target="_blank" rel="noopener">github.com/{profile.contact[0]?.href.split('/').pop()}</a>
-            <span class="placeholder-tag" data-en="Contact: via GitHub profile" data-zh="联系方式：通过 GitHub 主页">Contact: via GitHub profile</span>
+            <a href="mailto:wwqwhichone@gmail.com">wwqwhichone@gmail.com</a>
           </div>
         </header>
 

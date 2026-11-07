@@ -84,6 +84,15 @@ describe('site copy', () => {
     expect(profile.nameZh).toContain('王威淇');
   });
 
+  it('uses owner-confirmed education dates and dissertation stage', () => {
+    const [hku, nwpu] = profile.education;
+    expect(hku?.period).toBe('Sep 2026 to Present');
+    expect(nwpu?.period).toBe('2020 to 2024');
+    const text = JSON.stringify(projects);
+    expect(text).not.toMatch(/Interim/i);
+    expect(text).toContain('proposal');
+  });
+
   it('homepage Vitest metric matches test count in test suite', () => {
     const testFiles = readdirSync('tests').filter((f) => f.endsWith('.test.ts'));
     let totalIt = 0;
