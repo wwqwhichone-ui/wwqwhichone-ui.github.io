@@ -39,6 +39,8 @@ export const GITHUB_URL = `https://github.com/${GITHUB_USERNAME}`;
 
 export const profile = {
   name: 'Weiqi Wang',
+  /** Preferred English first name. */
+  preferredName: 'Winston',
   nameZh: '王威淇 (Weiqi Wang)',
   headline: 'Robotics & AI Engineer | Intelligent Systems',
   headlineZh: '机器人与人工智能工程师 · 智能系统方向',
@@ -96,14 +98,14 @@ export const profile = {
       degreeZh: '工学硕士',
       field: 'Robotics & Intelligent Systems',
       fieldZh: '机器人与智能系统',
-      period: '2025 to Present',
+      period: 'Sep 2026 to Present',
       notes: [
-        'Curriculum: Robot Dynamics & Control, Machine Learning, Computer Vision, Autonomous Systems',
+        'Coursework: DASE7501 Robot modelling, planning and control · DASE7502 Advanced robot sensing and intelligence · DASE7503 Robotic systems integration · DASE7137 Virtual reality and applications',
         'Dissertation: Voice Command-Based Action Generation for Mobile Industrial Manipulators',
       ],
       notesZh: [
-        '核心课程：机器人动力学与控制、机器学习、计算机视觉、自主系统等',
-        '硕士论文课题：基于语音指令的移动工业机械臂动作生成与安全验证',
+        '课程：DASE7501 Robot modelling, planning and control · DASE7502 Advanced robot sensing and intelligence · DASE7503 Robotic systems integration · DASE7137 Virtual reality and applications',
+        '硕士论文课题：基于语音指令的移动工业机械臂动作生成（Voice Command-Based Action Generation for Mobile Industrial Manipulators）',
       ],
     },
     {
@@ -113,7 +115,7 @@ export const profile = {
       degreeZh: '工学学士',
       field: 'Engineering Mechanics',
       fieldZh: '工程力学',
-      period: '2021 to 2025',
+      period: '2020 to 2024',
       notes: [
         'Solid foundation in theoretical mechanics, continuum mechanics, computational methods, and linear algebra',
       ],
@@ -182,7 +184,8 @@ export const profile = {
   },
   contact: [
     { label: 'GitHub', href: GITHUB_URL },
-    // Add LinkedIn / email here once confirmed. Entries marked isPlaceholder are never rendered.
+    { label: 'Email', href: 'mailto:wwqwhichone@gmail.com' },
+    // LinkedIn: not registered yet. Entries marked isPlaceholder are never rendered.
   ] satisfies readonly ContactLink[],
   resume: {
     /** Set to true after placing public/resume/Weiqi_Wang_Resume.pdf */

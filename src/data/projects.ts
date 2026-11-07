@@ -390,11 +390,11 @@ export const projects: Project[] = [
       '学术研究数据与实验成果须经导师审阅后公开。',
     ],
     results: [
-      'Academic research actively in progress (Interim Report phase)',
+      'Dissertation proposal submitted; research has just started',
       'Repository scaffold and typed module interfaces completed; simulation environment not yet built',
     ],
     resultsZh: [
-      '学术课题进行中（Interim Report 阶段）',
+      '已提交开题报告（proposal），研究刚刚开始',
       '已完成仓库脚手架与模块接口定义；仿真环境尚未搭建',
     ],
     stack: ['Python', 'Speech Recognition', 'LLM Planning', 'Robotics Simulation', 'ROS 2 (Planned)'],

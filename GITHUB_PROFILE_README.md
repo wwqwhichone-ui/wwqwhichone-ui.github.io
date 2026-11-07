@@ -7,7 +7,7 @@
   <img src="https://raw.githubusercontent.com/wwqwhichone-ui/wwqwhichone-ui/main/assets/header.svg" alt="Weiqi Wang — Robotics × AI × Intelligent Systems" width="100%">
 </p>
 
-<h2 align="center">Weiqi Wang (王威淇)</h2>
+<h2 align="center">Weiqi (Winston) Wang · 王威淇</h2>
 <p align="center">
   <b>Robotics & AI Engineer | MSc(Eng) in Robotics & Intelligent Systems @ HKU</b><br>
   <i>Exploring Embodied AI, Safe LLM Task Planning, and Intelligent Industrial Manipulation</i>
@@ -76,8 +76,7 @@ All repositories are backed by automated test suites (`pytest`), verifiable math
 
 * 🌐 **Website:** [wwqwhichone-ui.github.io](https://wwqwhichone-ui.github.io)
 * 💻 **GitHub:** [@wwqwhichone-ui](https://github.com/wwqwhichone-ui)
-* 💼 **LinkedIn:** *[Add LinkedIn Profile URL in config]*
-* 📧 **Email:** *[Add Academic Email in config]*
+* 📧 **Email:** [wwqwhichone@gmail.com](mailto:wwqwhichone@gmail.com)
 
 <p align="right">
   <sub>Last verified & updated: November 2026 • Built with factual evidence</sub>
