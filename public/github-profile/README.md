@@ -45,13 +45,14 @@ Developing a modular, safety-critical architecture that captures human voice ins
 
 ### 🚀 Featured Open-Source Projects
 
-All repositories are backed by automated test suites (`pytest`), verifiable math, and continuous integration (`GitHub Actions`).
+All repositories are backed by automated tests and continuous integration (`GitHub Actions`).
 
 | Repository | Focus & Architecture | Status & Verification |
 | :--- | :--- | :--- |
 | [**llm-robot-task-planner**](https://github.com/wwqwhichone-ui/llm-robot-task-planner) | **Safe LLM Task Planning with 3-Layer Validation**<br>Natural language → strict JSON Schema (Draft 2020-12) → world grounding → precondition state machine → mock execution trace. | ![CI](https://github.com/wwqwhichone-ui/llm-robot-task-planner/actions/workflows/ci.yml/badge.svg) `Proof of concept`<br>• 24 unit tests<br>• Zero hallucinated hardware calls |
 | [**robot-arm-kinematics**](https://github.com/wwqwhichone-ui/robot-arm-kinematics) | **Serial-Manipulator Kinematics in Pure NumPy**<br>Standard DH forward kinematics, geometric Jacobians (revolute/prismatic), Damped Least-Squares IK (UR5 industrial arm), Yoshikawa manipulability, and quintic trajectories. | ![CI](https://github.com/wwqwhichone-ui/robot-arm-kinematics/actions/workflows/ci.yml/badge.svg) `Proof of concept`<br>• 97.0% IK success on 500 UR5 poses<br>• Finite-difference verified Jacobians |
 | [**mobile-robot-path-planning**](https://github.com/wwqwhichone-ui/mobile-robot-path-planning) | **Mobile Robot Search & Sampling Benchmark**<br>A*, Dijkstra, RRT and RRT* on 2D occupancy grids with disk obstacle inflation, anti-corner-cutting checks, and line-of-sight shortcutting.<br>👉 **[Try Live Browser Demo](https://wwqwhichone-ui.github.io/demo/path-planning/)** | ![CI](https://github.com/wwqwhichone-ui/mobile-robot-path-planning/actions/workflows/ci.yml/badge.svg) `Proof of concept`<br>• 19 unit tests<br>• Interactive web simulator |
+| [**pomodoro**](https://github.com/wwqwhichone-ui/pomodoro) | **Paper-and-Ink Pomodoro Timer for macOS & Windows**<br>Native SwiftUI app on macOS (Sidecar / multi-monitor full-screen, live menu bar countdown) and an Electron port for Windows; universal Notion task sync plus a local HTTP API and `pomo` CLI for AI agents. | ![Release](https://img.shields.io/github/v/release/wwqwhichone-ui/pomodoro) `Released`<br>• Universal macOS + Windows builds via GitHub Actions<br>• 8 Windows core tests (`node --test`) |
 | [**wwqwhichone-ui.github.io**](https://github.com/wwqwhichone-ui/wwqwhichone-ui.github.io) | **Developer Portfolio & Research Hub**<br>Modern static portfolio built with Astro, TypeScript, and Tailwind CSS. Features full bilingual (EN/中) instant switching, dark/light theme, and automated CI/CD. | ![CI](https://github.com/wwqwhichone-ui/wwqwhichone-ui.github.io/actions/workflows/ci.yml/badge.svg) `Production`<br>• 100% static & fast |
 
 ---
